@@ -37,13 +37,14 @@ const ColourPicker = () => {
       <div
         ref={colourPickerRef}
         className={css`
-          position: absolute;
+          position: fixed;
           height: max-content;
           width: max-content;
           z-index: 1000;
+          top: 2%;
+          left: 2%;
           display: flex;
-          top: 0;
-          flex-direction: column;
+          flex-direction: row;
           gap: 5px;
         `}
       >
@@ -59,7 +60,7 @@ const ColourPicker = () => {
         <FontAwesomeIcon
           icon={faCircleXmark}
           size={"lg"}
-          color="#BDD364"
+          color={"#7cc0a0"}
           onClick={() => {
             setShowColourPicker(false);
           }}

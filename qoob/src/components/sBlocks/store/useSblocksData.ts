@@ -37,6 +37,8 @@ export const useSBlocksData = () => {
     setLayers,
     showSnackBar,
     setShowSnackBar,
+    darkTheme,
+    setDarkTheme,
   } = useSBlocksStore((state) => ({
     gridData: state.gridData,
     setGridData: state.setGridData,
@@ -73,6 +75,8 @@ export const useSBlocksData = () => {
     setLayers: state.setLayers,
     showSnackBar: state.showSnackBar,
     setShowSnackBar: state.setShowSnackBar,
+    darkTheme: state.darkTheme,
+    setDarkTheme: state.setDarkTheme,
   }));
 
   return {
@@ -111,5 +115,7 @@ export const useSBlocksData = () => {
     setLayers,
     showSnackBar,
     setShowSnackBar,
+    darkTheme,
+    setDarkTheme,
   };
 };

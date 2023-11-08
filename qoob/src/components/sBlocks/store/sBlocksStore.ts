@@ -1,28 +1,52 @@
 import {create} from "zustand";
 import {Colour, SBlockLayer, SBlockType} from "../sBlockTypes";
 
+// const initialColour = {
+//   hsl: {
+//     h: 0,
+//     s: 0,
+//     l: 0,
+//     a: 1,
+//   },
+//   hex: "#000000",
+//   rgb: {
+//     r: 0,
+//     g: 0,
+//     b: 0,
+//     a: 1,
+//   },
+//   hsv: {
+//     h: 0,
+//     s: 0,
+//     v: 0,
+//     a: 1,
+//   },
+//   oldHue: 0,
+//   source: "hsv",
+// };
+
 const initialColour = {
   hsl: {
-    h: 0,
-    s: 0,
-    l: 0,
+    h: 151.76470588235293,
+    s: 0.3505154639175258,
+    l: 0.6196078431372549,
     a: 1,
   },
-  hex: "#000000",
+  hex: "#7cc0a0",
   rgb: {
-    r: 0,
-    g: 0,
-    b: 0,
+    r: 124,
+    g: 192,
+    b: 160,
     a: 1,
   },
   hsv: {
-    h: 0,
-    s: 0,
-    v: 0,
+    h: 151.76470588235293,
+    s: 0.3541666666666667,
+    v: 0.7529411764705882,
     a: 1,
   },
-  oldHue: 0,
-  source: "hsv",
+  oldHue: 151.76470588235293,
+  source: "hex",
 };
 
 type State = {
@@ -40,6 +64,7 @@ type State = {
   showColourPicker: boolean;
   showGrid: boolean;
   showPaletteTemplates: boolean;
+  darkTheme: boolean;
 
   colourPalette: any[];
   sBlocks: SBlockType[];
@@ -65,6 +90,7 @@ const initialState: State = {
   showColourPicker: false,
   showGrid: true,
   showPaletteTemplates: false,
+  darkTheme: false,
 
   colourPalette: ["transparent", "transparent", "transparent", "transparent", "transparent", "transparent"],
   sBlocks: [],
@@ -90,6 +116,7 @@ type Actions = {
   setShowGrid: (bool: boolean) => void;
   setShowPaletteTemplates: (bool: boolean) => void;
   setShowSnackBar: (bool: boolean) => void;
+  setDarkTheme: (bool: boolean) => void;
 
   setColourPalette: (arr: any[]) => void;
   setSBlocks: (arr: SBlockType[]) => void;
@@ -115,6 +142,7 @@ export const useSBlocksStore = create<State & Actions>((set) => ({
   setShowGrid: (bool: boolean) => set(() => ({showGrid: bool})),
   setShowPaletteTemplates: (bool: boolean) => set(() => ({showPaletteTemplates: bool})),
   setShowSnackBar: (bool: boolean) => set(() => ({showSnackBar: bool})),
+  setDarkTheme: (bool: boolean) => set(() => ({darkTheme: bool})),
 
   setColourPalette: (arr: any[]) => set(() => ({colourPalette: arr})),
   setSBlocks: (arr: SBlockType[]) => set(() => ({sBlocks: arr})),

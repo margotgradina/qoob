@@ -1,7 +1,7 @@
 import {css} from "@emotion/css";
 import SBlock from "./sBlock";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleXmark, faEraser, faEye, faPalette, faRotate, faSave} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faEraser, faEye, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
 import SBlocksColourPalettes from "./sBlocksColourPalettes";
 import {useSBlocks} from "./hooks/useSBlocks";
 import SBlockLayers from "./sBlockLayers";
@@ -26,6 +26,8 @@ const SBlockMenu = () => {
     handleClickRotation,
     showPaletteTemplates,
     setShowPaletteTemplates,
+    darkTheme,
+    setDarkTheme,
   } = useSBlocks();
 
   return (
@@ -34,9 +36,10 @@ const SBlockMenu = () => {
         className={css`
           display: flex;
           flex-direction: column;
-          align-self: flex-end;
+          align-self: flex-start;
           align-items: center;
           width: 10vw;
+          margin: 1rem;
           min-width: 150px;
           max-width: 200px;
           height: 90%;
@@ -98,10 +101,11 @@ const SBlockMenu = () => {
             }}
             className={css`
               background-color: #7cc0a0;
-              padding: 4px;
+              padding: 4px 4px 6px 4px;
+              height: 20px;
+              width: 20px;
               border-radius: 50%;
-              width: max-content;
-              height: max-content;
+              text-align: center;
             `}
           >
             <FontAwesomeIcon icon={faPalette} color={"white"} />
@@ -112,7 +116,6 @@ const SBlockMenu = () => {
           className={css`
             display: flex;
             flex-direction: row;
-
             width: 90%;
             align-items: center;
             justify-content: space-evenly;
@@ -273,6 +276,15 @@ const SBlockMenu = () => {
             justify-content: flex-end;
           `}
         >
+          <BasicButton
+            width={"8.5vw"}
+            minWidth="90%"
+            onClick={() => {
+              setDarkTheme(!darkTheme);
+            }}
+            label={darkTheme ? "Light mode" : "Dark mode"}
+            iconEnd={darkTheme ? faSun : faMoon}
+          />
           <BasicButton
             width={"8.5vw"}
             minWidth="90%"

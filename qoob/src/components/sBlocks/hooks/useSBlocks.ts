@@ -41,6 +41,8 @@ export const useSBlocks = () => {
     setLayers,
     showSnackBar,
     setShowSnackBar,
+    darkTheme,
+    setDarkTheme,
   } = useSBlocksData();
 
   //Array used to map through all shapes in the menu.
@@ -323,5 +325,7 @@ export const useSBlocks = () => {
     setLayers,
     showSnackBar,
     setShowSnackBar,
+    darkTheme,
+    setDarkTheme,
   };
 };

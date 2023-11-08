@@ -37,20 +37,14 @@ const SblockGrid = () => {
   }, [showGrid]);
 
   return (
-    <div
-      className={css`
-        width: 90%;
-        height: 80%;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      `}
-    >
+    <>
       {/* - - - - GRID - - - - TODO MOVE TO SEPARATE COMPONENT -*/}
       <div
         className={css`
           width: 90%;
-          height: 70%;
+          height: 90%;
+          max-width: 100vw;
+          max-height: 100vh;
           display: flex;
           align-items: flex-start;
 
@@ -173,24 +167,7 @@ const SblockGrid = () => {
           </tbody>
         </table>
       </div>
-      {/* - - - - MENU - - - - -*/}
-      <SBlockMenu />
-      {/* <Toast type={"Info"} autohideDuration={6000} message={"Cannot delete"} onClose={() => setShowSnackBar(false)} show={showSnackBar} /> */}
-      {/* <div
-        className={css`
-          z-index: 10000000;
-        `}
-      >
-        <Snackbar
-          anchorOrigin={{vertical, horizontal}}
-          open={showSnackBar}
-          autoHideDuration={6000}
-          onClose={() => setShowSnackBar(false)}
-          message="Note archived"
-          action={null}
-        />
-      </div> */}
-    </div>
+    </>
   );
 };
 
