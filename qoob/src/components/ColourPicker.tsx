@@ -6,7 +6,7 @@ import {SketchPicker, Color} from "react-color";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
 
 const ColourPicker = () => {
-  const {currentColour, setCurrentColour, showColourPicker, setShowColourPicker} = useSBlocks();
+  const {currentColour, setCurrentColour, setShowColourPicker} = useSBlocks();
 
   const colourPickerRef = useRef<HTMLDivElement | null>(null);
 

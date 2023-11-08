@@ -33,7 +33,7 @@ export const useSBlocks = () => {
     colourPalette,
     setColourPalette,
     sBlocks,
-    setSBlocks,
+    // setSBlocks,
     paletteArray,
     setPaletteArray,
     rotationArray,
@@ -219,7 +219,8 @@ export const useSBlocks = () => {
     } else {
       newIndex = index + 1;
     }
-    const newRotation = rotationArray?.at(newIndex);
+    const newRotation: number | undefined = rotationArray?.find((num, index) => index == newIndex);
+
     setCurrentRotation(newRotation as 0 | 90 | 180 | 270);
   };
 

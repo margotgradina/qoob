@@ -17,7 +17,7 @@ interface ButtonProps {
 const BasicButton = (props: ButtonProps) => {
   return (
     <div
-      onClick={(e) => props?.onClick()}
+      onClick={() => props?.onClick()}
       className={css`
         display: flex;
         justify-content: center;
