@@ -193,7 +193,8 @@ const SBlockMenu = () => {
             }
 
             ::-webkit-scrollbar-thumb {
-              background-color: #7cc0a0;
+              /* background-color: #7cc0a0; */
+              background-color: grey;
               border-radius: 20px;
               border: 0px solid orange;
             }

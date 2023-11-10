@@ -21,7 +21,9 @@ TODO
  8. TOOLS
  - Bij hover op cell : top menutje om te kunnen draaien
  
+9. scrollen menu
 
+10. vastzetten cijfers bovenaan en links grid zodat deze altijd zichtbaar zijn
 
 DONE
     X toevoegen quick-add kleuren 
