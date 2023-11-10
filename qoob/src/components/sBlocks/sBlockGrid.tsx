@@ -44,7 +44,7 @@ const SblockGrid = () => {
           width: 90%;
           height: 90%;
           max-width: 100vw;
-          max-height: 100vh;
+          max-height: 90vh;
           display: flex;
           align-items: flex-start;
 

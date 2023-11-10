@@ -6,6 +6,8 @@ import SBlockTriangle from "./shapes/sBlockTriangle";
 import SBlockRoundCorner from "./shapes/sBlockRoundCorner";
 import SBlockHalfCircleOutwards from "./shapes/sBlockHalfCircleOutwards";
 import SBlockHalfTriangle from "./shapes/sBlockHalfTriangle";
+import SBlockCircleQuarter from "./shapes/sBlockCircleQuarter";
+import SBlockHalfCircleInwards from "./shapes/sBlockHalfCircleInwards";
 
 interface Props {
   type: string;
@@ -70,6 +72,8 @@ const SBlock = (props: Props) => {
       case "HALFCIRCLEOUTWARDS":
         return `0px 0px 0px 0px`;
       case "HALFTRIANGLE":
+        return `0px 0px 0px 0px`;
+      case "SBLOCKCIRCLEQUARTER":
         return `0px 0px 0px 0px`;
       default:
         return "0px 0px 0px 0px";
@@ -158,6 +162,18 @@ const SBlock = (props: Props) => {
           rotate={rotate || "0deg"}
           bR={bR}
         />
+      )}
+      {props.type == "HALFCIRCLEINWARDS" && (
+        <SBlockHalfCircleInwards
+          size={props.size || 10}
+          sizeUnit={props.sizeUnit || "em"}
+          colour={props?.colour || "#000"}
+          rotate={rotate || "0deg"}
+          bR={bR}
+        />
+      )}
+      {props.type == "SBLOCKCIRCLEQUARTER" && (
+        <SBlockCircleQuarter size={props.size || 10} sizeUnit={props.sizeUnit || "em"} colour={props?.colour || "#000"} rotate={rotate || "0deg"} />
       )}
     </div>
   );

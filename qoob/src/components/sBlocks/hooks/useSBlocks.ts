@@ -50,6 +50,7 @@ export const useSBlocks = () => {
     {shape: "FULL", function: () => setCurrentShape("FULL")},
     {shape: "CIRCLE", function: () => setCurrentShape("CIRCLE")},
     {shape: "QUARTERCIRCLE", function: () => setCurrentShape("QUARTERCIRCLE")},
+    {shape: "SBLOCKCIRCLEQUARTER", function: () => setCurrentShape("SBLOCKCIRCLEQUARTER")},
     {shape: "HALFSTADIUM", function: () => setCurrentShape("HALFSTADIUM")},
     {shape: "ELLIPS", function: () => setCurrentShape("ELLIPS")},
     {shape: "DROP", function: () => setCurrentShape("DROP")},
@@ -58,6 +59,7 @@ export const useSBlocks = () => {
     {shape: "HALFTRIANGLE", function: () => setCurrentShape("HALFTRIANGLE")},
     {shape: "ROUNDCORNER", function: () => setCurrentShape("ROUNDCORNER")},
     {shape: "HALFCIRCLEOUTWARDS", function: () => setCurrentShape("HALFCIRCLEOUTWARDS")},
+    {shape: "HALFCIRCLEINWARDS", function: () => setCurrentShape("HALFCIRCLEINWARDS")},
   ];
 
   // Initialize the grid with empty cells

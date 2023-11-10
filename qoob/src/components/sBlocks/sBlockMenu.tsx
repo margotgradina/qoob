@@ -42,7 +42,7 @@ const SBlockMenu = () => {
           margin: 1rem;
           min-width: 150px;
           max-width: 200px;
-          height: 90%;
+          height: 100%;
           border-radius: 10px;
           box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.25);
           border: 1px solid grey;
@@ -185,6 +185,18 @@ const SBlockMenu = () => {
             flex-wrap: wrap;
             flex-direction: row;
             padding: 0px 5px 0px 5px;
+            height: 10vh;
+            overflow-y: auto;
+            ::-webkit-scrollbar {
+              width: 5px;
+              height: 5px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+              background-color: #7cc0a0;
+              border-radius: 20px;
+              border: 0px solid orange;
+            }
             align-items: center;
             justify-content: space-evenly;
 
