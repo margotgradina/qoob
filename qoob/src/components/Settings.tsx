@@ -19,12 +19,12 @@ const Settings = () => {
       <div
         className={css`
           position: absolute;
-          right: 1%;
+          right: 180px;
           top: 2%;
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           align-items: center;
-          gap: 0.2rem;
+          gap: 0.7rem;
           /* background-color: yellow; */
           width: 100px;
         `}
@@ -44,6 +44,8 @@ const Settings = () => {
         >
           <label>width</label>
           <input
+            min={1}
+            max={50}
             type={"number"}
             className={css`
               background-color: rgb(255, 255, 255);
@@ -79,15 +81,12 @@ const Settings = () => {
             align-items: center;
             font-size: 12px;
             gap: 0.2rem;
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-              background-color: #f00; /* Change the background color of the arrows */
-              color: #fff; /* Change the color of the arrows */
-            }
           `}
         >
           <label>height</label>
           <input
+            min={1}
+            max={50}
             type={"number"}
             className={css`
               background-color: rgb(255, 255, 255);

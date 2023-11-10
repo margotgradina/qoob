@@ -37,9 +37,6 @@ const Main = () => {
           // numRows > 0 && numCols > 0 ? (
           //   <></>
           // ) : (
-          <>
-            <Settings />
-          </>
           // )
         }
         <div

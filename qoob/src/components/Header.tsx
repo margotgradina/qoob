@@ -25,6 +25,9 @@ export const Header = () => {
             padding: 2px;
           `}
         />
+        <>
+          <Settings />
+        </>
         {/* <Settings /> */}
       </div>
     </>
