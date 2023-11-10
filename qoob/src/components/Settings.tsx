@@ -10,10 +10,8 @@ const Settings = () => {
 
   //TODO: adjust so it will straight away update
   const adjustWidthAndHeight = () => {
-    setGridData([]);
     setNumCols(width as unknown as number);
     setNumRows(height as unknown as number);
-    initializeGrid();
   };
 
   return (
@@ -21,43 +19,106 @@ const Settings = () => {
       <div
         className={css`
           position: absolute;
-          right: 5%;
+          right: 1%;
           top: 2%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.2rem;
           /* background-color: yellow; */
           width: 100px;
         `}
       >
-        <input
+        <div
           className={css`
-            background-color: #ffffff;
-            color: #000;
-            border: 0px;
-            border-radius: 10px;
-            padding-left: 5px;
+            display: flex;
+            flex-direction: row;
+            width: 90px;
+            justify-content: space-between;
+            font-family: "Josefin Sans";
+            font-weight: 400;
+            align-items: center;
+            font-size: 12px;
+            gap: 0.2rem;
           `}
-          value={width}
-          onChange={(e) => setWidth(e.target.value)}
-          placeholder={"breedte"}
-        />
-        <input
+        >
+          <label>width</label>
+          <input
+            type={"number"}
+            className={css`
+              background-color: rgb(255, 255, 255);
+              color: #000;
+              width: 40px;
+              text-align: center;
+              height: 1.2rem;
+              border: 0px;
+              border-radius: 10px;
+              padding-left: 5px;
+              font-family: "Josefin Sans";
+              font-weight: 400;
+            `}
+            placeholder={"width"}
+            value={width}
+            onChange={(e) => {
+              if ((e.target.value as unknown as number) <= 0) {
+                console.log("no negatives");
+              } else {
+                setWidth(e.target.value);
+              }
+            }}
+          />
+        </div>
+        <div
           className={css`
-            background-color: #ffffff;
-            color: #000;
-            border: 0px;
-            border-radius: 10px;
-            padding-left: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-family: "Josefin Sans";
+            font-weight: 400;
+            width: 90px;
+            align-items: center;
+            font-size: 12px;
+            gap: 0.2rem;
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+              background-color: #f00; /* Change the background color of the arrows */
+              color: #fff; /* Change the color of the arrows */
+            }
           `}
-          placeholder={"hoogte"}
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-        />
+        >
+          <label>height</label>
+          <input
+            type={"number"}
+            className={css`
+              background-color: rgb(255, 255, 255);
+              color: #000;
+              width: 40px;
+              text-align: center;
+              height: 1.2rem;
+              border: 0px;
+              border-radius: 10px;
+              padding-left: 5px;
+              font-family: "Josefin Sans";
+              font-weight: 400;
+            `}
+            placeholder={"height"}
+            value={height}
+            onChange={(e) => {
+              if ((e.target.value as unknown as number) <= 0) {
+                console.log("no negatives");
+              } else {
+                setHeight(e.target.value);
+              }
+            }}
+          />
+        </div>
         <BasicButton
           onClick={() => {
             adjustWidthAndHeight();
           }}
           label={"start"}
-          width={"300px"}
-          minWidth={"170px"}
+          width={"80px"}
+          minWidth={"80px"}
           height={"1.5rem"}
         />
       </div>

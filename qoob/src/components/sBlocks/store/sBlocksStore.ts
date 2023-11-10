@@ -77,8 +77,8 @@ type State = {
 
 const initialState: State = {
   gridData: [],
-  numRows: 20,
-  numCols: 20,
+  numRows: 0,
+  numCols: 0,
   cellSize: "40px",
   border: "1px dashed grey",
 

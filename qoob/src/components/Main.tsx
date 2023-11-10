@@ -3,9 +3,20 @@ import SblockGrid from "./sBlocks/sBlockGrid";
 import SBlockMenu from "./sBlocks/sBlockMenu";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
 import {Header} from "./Header";
+import {useState} from "react";
+import {Unstable_NumberInput as BaseNumberInput, NumberInputProps, numberInputClasses} from "@mui/base/Unstable_NumberInput";
+import BasicButton from "./BasicButton";
+import Settings from "./Settings";
 
 const Main = () => {
-  const {darkTheme, setDarkTheme} = useSBlocks();
+  const {darkTheme, setDarkTheme, setNumCols, setNumRows, numCols, numRows} = useSBlocks();
+  const [width, setWidth] = useState<string>("");
+  const [height, setHeight] = useState<string>("");
+
+  const onClick = () => {
+    setNumCols(width as unknown as number);
+    setNumRows(height as unknown as number);
+  };
 
   return (
     <>
@@ -22,7 +33,15 @@ const Main = () => {
         `}
       >
         <Header />
-
+        {
+          // numRows > 0 && numCols > 0 ? (
+          //   <></>
+          // ) : (
+          <>
+            <Settings />
+          </>
+          // )
+        }
         <div
           className={css`
             width: 100%;

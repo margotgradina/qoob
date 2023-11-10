@@ -10,6 +10,7 @@ const SblockGrid = () => {
   const {
     gridData,
     numCols,
+    numRows,
     cellSize,
     border,
     handleCellClick,
@@ -25,8 +26,10 @@ const SblockGrid = () => {
 
   // Initialize the grid when the component mounts
   useEffect(() => {
-    initializeGrid();
-  }, []);
+    if (numRows && numCols) {
+      initializeGrid();
+    }
+  }, [numRows, numCols]);
 
   useEffect(() => {
     if (showGrid) {
