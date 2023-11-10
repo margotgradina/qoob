@@ -33,3 +33,8 @@ DONE
     X toevoegen kleurenschema TEMPLATES
     X toevoegen optie lagen, meerdere vakjes in een gridcell.
     X hele lagen zichtbaar of onzichtbaar maken
+
+
+    TO DEPLOY:
+    Run npm run build
+    Run Netlify deploy --prod
