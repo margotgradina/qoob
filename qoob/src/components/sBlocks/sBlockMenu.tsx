@@ -1,12 +1,14 @@
 import {css} from "@emotion/css";
 import SBlock from "./sBlock";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleXmark, faEraser, faEye, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faDownload, faEraser, faEye, faMoon, faPalette, faRotate, faSave, faSun, faUpload} from "@fortawesome/free-solid-svg-icons";
 import SBlocksColourPalettes from "./sBlocksColourPalettes";
 import {useSBlocks} from "./hooks/useSBlocks";
 import SBlockLayers from "./sBlockLayers";
 import BasicButton from "../BasicButton";
 import ColourPicker from "../ColourPicker";
+import FileUpload from "../FileUpload";
+import {useState} from "react";
 
 const SBlockMenu = () => {
   const {
@@ -28,7 +30,11 @@ const SBlockMenu = () => {
     setShowPaletteTemplates,
     darkTheme,
     setDarkTheme,
+    handleExport,
+    handleImport,
   } = useSBlocks();
+
+  const [showUploadScreen, setShowUploadScreen] = useState<boolean>(false);
 
   return (
     <>
@@ -316,10 +322,29 @@ const SBlockMenu = () => {
             label={"Save as JPG"}
             iconEnd={faSave}
           />
+          <BasicButton
+            width="8.5vw"
+            minWidth="90%"
+            onClick={() => {
+              handleExport();
+            }}
+            label={"Export"}
+            iconEnd={faDownload}
+          />
+          <BasicButton
+            width="8.5vw"
+            minWidth="90%"
+            onClick={() => {
+              setShowUploadScreen(true);
+            }}
+            label={"Import"}
+            iconEnd={faUpload}
+          />
         </div>
 
         {showColourPicker && <ColourPicker />}
         {showPaletteTemplates && <SBlocksColourPalettes />}
+        {showUploadScreen && <FileUpload onClose={() => setShowUploadScreen(false)} />}
       </div>
     </>
   );

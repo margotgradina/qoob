@@ -283,6 +283,44 @@ export const useSBlocks = () => {
     }
   };
 
+  const handleExport = () => {
+    const fileData = {
+      cellSize: cellSize,
+      numRows: numRows,
+      numCols: numCols,
+      gridData: gridData,
+    };
+    const jsonData = JSON.stringify(fileData, null, 2);
+
+    // const jsonData = JSON.stringify(gridData, null, 2);
+    const blob = new Blob([jsonData], {type: "text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "exportDesign_" + new Date().toDateString() + ".txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = (file: any) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const importedData = JSON.parse(e.target?.result as string);
+          setNumRows(importedData?.numRows);
+          setNumCols(importedData?.numCols);
+          setTimeout(() => setGridData(importedData?.gridData), 100);
+        } catch (error) {
+          console.error("Error parsing JSON file:", error);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
   return {
     determineZIndexBasedOnLayerId,
     determineVisibilityBasedOnLayerId,
@@ -329,5 +367,7 @@ export const useSBlocks = () => {
     setShowSnackBar,
     darkTheme,
     setDarkTheme,
+    handleExport,
+    handleImport,
   };
 };
