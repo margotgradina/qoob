@@ -48,7 +48,20 @@ const SBlockMenu = () => {
           margin: 1rem;
           min-width: 150px;
           max-width: 200px;
+          /* height: 90vh; */
+          /* max-height: 90vh; */
           height: 100%;
+          overflow-y: auto;
+          ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+          }
+
+          ::-webkit-scrollbar-thumb {
+            background-color: #7cc0a0;
+            border-radius: 20px;
+            border: 0px solid orange;
+          }
           border-radius: 10px;
           box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.25);
           border: 1px solid grey;
@@ -322,7 +335,7 @@ const SBlockMenu = () => {
             label={"Save as JPG"}
             iconEnd={faSave}
           />
-          <BasicButton
+          {/* <BasicButton
             width="8.5vw"
             minWidth="90%"
             onClick={() => {
@@ -339,7 +352,7 @@ const SBlockMenu = () => {
             }}
             label={"Import"}
             iconEnd={faUpload}
-          />
+          /> */}
         </div>
 
         {showColourPicker && <ColourPicker />}

@@ -7,6 +7,7 @@ import {useState} from "react";
 import {Unstable_NumberInput as BaseNumberInput, NumberInputProps, numberInputClasses} from "@mui/base/Unstable_NumberInput";
 import BasicButton from "./BasicButton";
 import Settings from "./Settings";
+import FloatingButtons from "./FloatingButtons";
 
 const Main = () => {
   const {darkTheme, setDarkTheme, setNumCols, setNumRows, numCols, numRows} = useSBlocks();
@@ -25,11 +26,12 @@ const Main = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          height: 99%;
+          height: 100%;
           background-color: ${darkTheme ? "#353535" : "#dfdfdf"};
           color: ${darkTheme ? "#fff" : "#000"};
           font-family: "Josefin Sans";
           font-weight: 600;
+          overflow: hidden;
         `}
       >
         <Header />
@@ -42,7 +44,6 @@ const Main = () => {
         <div
           className={css`
             width: 100%;
-            /* height: 99%; */
             display: flex;
             flex: 1;
             align-items: center;
@@ -53,6 +54,7 @@ const Main = () => {
           <SBlockMenu />
           <SblockGrid />
         </div>
+        {/* <FloatingButtons /> */}
       </div>
     </>
   );
