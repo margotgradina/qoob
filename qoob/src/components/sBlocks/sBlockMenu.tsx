@@ -5,6 +5,7 @@ import SBlocksColourPalettes from "./sBlocksColourPalettes";
 import {useSBlocks} from "./hooks/useSBlocks";
 import SBlockLayers from "./sBlockLayers";
 import IconButton from "../IconButton";
+import Tooltip from "../Tooltip";
 import ColourPicker from "../ColourPicker";
 import FileUpload from "../FileUpload";
 import Settings from "../Settings";
@@ -73,24 +74,26 @@ const SBlockMenu = () => {
           {/* - - - - COLOUR - - - -  */}
           <label className="w-[90%] font-semibold">Colour</label>
           <div className="flex w-[90%] flex-row items-center justify-between">
+            <Tooltip label="Open colour picker">
             <button
               type="button"
               aria-label="Open colour picker"
-              title="Open colour picker"
               onClick={() => setShowColourPicker(true)}
               className="m-0 h-6 w-6 cursor-pointer rounded-[5px] border-[0.5px] border-solid border-[#808080] p-0"
               style={{backgroundColor: currentColour?.hex || "transparent"}}
             ></button>
+            </Tooltip>
             <label className="flex text-[12px]">{currentColour?.hex}</label>
+            <Tooltip label="Choose a colour palette">
             <button
               type="button"
               aria-label="Choose a colour palette"
-              title="Choose a colour palette"
               onClick={() => setShowPaletteTemplates(true)}
               className="m-0 flex h-6 w-6 cursor-pointer items-center justify-center rounded-[50%] border-0 bg-[#2f7d5b] text-[12px] p-0"
             >
               <FontAwesomeIcon icon={faPalette} color={"white"} />
             </button>
+            </Tooltip>
           </div>
           {/* COLOUR PALETTE */}
           <div className="grid w-[90%] grid-cols-6 gap-[2px]">
@@ -98,10 +101,10 @@ const SBlockMenu = () => {
               const empty = colourPalette[index] == "transparent";
               return (
                 <div key={"colour_" + index} className="flex flex-col items-center gap-1">
+                  <Tooltip label={empty ? "Save the current colour here" : `Use ${colourPalette[index]?.hex}`}>
                   <button
                     type="button"
                     aria-label={empty ? `Save the current colour in slot ${index + 1}` : `Use saved colour ${colourPalette[index]?.hex}`}
-                    title={empty ? "Save the current colour here" : colourPalette[index]?.hex}
                     onClick={() => {
                       if (empty) {
                         handleAddColourPalette(index, currentColour);
@@ -112,6 +115,7 @@ const SBlockMenu = () => {
                     className="m-0 aspect-square w-full max-w-6 cursor-pointer bg-transparent rounded-[5px] border-[0.5px] border-solid border-[#808080] p-0"
                     style={{backgroundColor: colourPalette[index]?.hex}}
                   ></button>
+                  </Tooltip>
                   <IconButton
                     icon={faCircleXmark}
                     label={`Clear saved colour ${index + 1}`}
@@ -130,12 +134,11 @@ const SBlockMenu = () => {
             {shapeArray?.map((obj: {shape: string; function: Function}, index: number) => {
               const selected = currentShape == obj.shape;
               return (
+                <Tooltip key={"shape_" + index} label={obj.shape.toLowerCase()}>
                 <button
-                  key={"shape_" + index}
                   type="button"
                   aria-label={`Shape ${obj.shape.toLowerCase()}`}
                   aria-pressed={selected}
-                  title={obj.shape.toLowerCase()}
                   onClick={() => obj.function()}
                   className={`m-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] border-0 p-0 ${
                     selected ? "bg-[rgba(47,125,91,0.2)] outline outline-2 outline-[#2f7d5b]" : "bg-transparent"
@@ -143,6 +146,7 @@ const SBlockMenu = () => {
                 >
                   <SBlock type={obj.shape} rotate={currentRotation} colour={currentColour?.hex || "grey"} size={20} sizeUnit={"px"} />
                 </button>
+                </Tooltip>
               );
             })}
           </div>
