@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useRef} from "react";
@@ -36,17 +35,7 @@ const ColourPicker = () => {
     <>
       <div
         ref={colourPickerRef}
-        className={css`
-          position: fixed;
-          height: max-content;
-          width: max-content;
-          z-index: 1000;
-          top: 2%;
-          left: 2%;
-          display: flex;
-          flex-direction: row;
-          gap: 5px;
-        `}
+        className="fixed left-[2%] top-[2%] z-[1000] flex h-max w-max max-w-[96vw] flex-row gap-[5px]"
       >
         <SketchPicker
           color={currentColour as unknown as Color}

@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 
 interface sBlockTriangleProps {
   size: number;
@@ -10,24 +9,10 @@ const SBlockTriangle = (props: sBlockTriangleProps) => {
   return (
     <>
       <div
-        className={css`
-          height: ${props.size + props.sizeUnit};
-          width: ${props.size + props.sizeUnit};
-          transform: rotate(${props.rotate});
-          position: relative;
-        `}
+        className="relative" style={{height: props.size + props.sizeUnit, width: props.size + props.sizeUnit, transform: `rotate(${props.rotate})`}}
       >
         <div
-          className={css`
-            width: 0;
-            height: 0;
-            border-left: ${props.size * 0.5 + props.sizeUnit + " solid transparent"};
-            border-right: ${props.size * 0.5 + props.sizeUnit + " solid transparent"};
-            border-bottom: ${props.size + props.sizeUnit + " solid " + props.colour};
-            position: absolute;
-            top: 0;
-            left: 0;
-          `}
+          className="absolute left-0 top-0 h-0 w-0" style={{borderLeft: props.size * 0.5 + props.sizeUnit + " solid transparent", borderRight: props.size * 0.5 + props.sizeUnit + " solid transparent", borderBottom: props.size + props.sizeUnit + " solid " + props.colour}}
         ></div>
       </div>
     </>

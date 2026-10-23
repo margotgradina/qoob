@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -23,12 +27,15 @@ a:hover {
   color: #535bf2;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  height: 100%;
 }
 
 h1 {
@@ -65,5 +72,27 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@layer utilities {
+  /* thin scrollbar used by the menu, grid, layers and palette lists */
+  .scroll-thin::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .scroll-thin::-webkit-scrollbar-thumb {
+    background-color: #7cc0a0;
+    border-radius: 20px;
+    border: 0px solid orange;
+  }
+  .scroll-thin-grey::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .scroll-thin-grey::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius: 20px;
+    border: 0px solid orange;
   }
 }

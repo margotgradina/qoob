@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
-import {css} from "@emotion/css";
 import BasicButton from "./BasicButton";
 import {faCircleXmark, faUpload} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -31,20 +30,7 @@ const FileUpload = ({onClose}: Props) => {
 
   return (
     <div
-      className={css`
-        position: absolute;
-        z-index: top;
-        top: 50%;
-        left: 50%;
-        background-color: #fff;
-        border: 1px solid #000;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        padding: 1rem;
-      `}
+      className="absolute left-1/2 top-1/2 flex flex-col items-center justify-center gap-4 border border-solid border-black bg-white p-4"
     >
       <FontAwesomeIcon
         icon={faCircleXmark}

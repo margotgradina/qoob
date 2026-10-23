@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -18,45 +17,27 @@ const BasicButton = (props: ButtonProps) => {
   return (
     <div
       onClick={() => props?.onClick()}
-      className={css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: "Raleway";
-        font-size: small;
-        font-weight: ${props?.fontWeight || "600"};
-        border-radius: 1.6rem;
-        background: ${props?.backgroundColor || "#7cc0a0"};
-        width: ${props?.width || "10vw"};
-        max-width: 90%;
-        min-width: ${props?.minWidth || ""};
-        height: ${props?.height || "2rem"};
-        position: relative;
-      `}
+      className="relative flex items-center justify-center rounded-[1.6rem] font-['Raleway'] max-w-[90%]"
+      style={{
+        fontSize: "small",
+        fontWeight: props?.fontWeight || "600",
+        background: props?.backgroundColor || "#7cc0a0",
+        width: props?.width || "10vw",
+        minWidth: props?.minWidth || undefined,
+        height: props?.height || "2rem",
+      }}
     >
       <label
-        className={css`
-          display: flex;
-          font-family: "Raleway";
-          flex-direction: column;
-          text-align: center;
-          align-content: center;
-          color: ${props.labelColour || "white"};
-        `}
+        className="flex flex-col content-center text-center font-['Raleway']"
+        style={{color: props.labelColour || "white"}}
       >
         {props?.label}
       </label>
       {props.iconEnd && (
         <FontAwesomeIcon
           icon={props.iconEnd}
-          className={css`
-            color: ${props.labelColour || "white"};
-            margin-right: 1rem; /* Adjust the distance as needed */
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-          `}
+          className="absolute right-0 top-1/2 mr-4 -translate-y-1/2"
+          style={{color: props.labelColour || "white"}}
         />
       )}
     </div>

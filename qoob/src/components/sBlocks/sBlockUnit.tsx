@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 
 interface sBlockProps {
   size: number;
@@ -12,13 +11,13 @@ const SBlockUnit = (props: sBlockProps) => {
   return (
     <>
       <div
-        className={css`
-          border-radius: ${props.borderRadius};
-          background-color: ${props.colour};
-          width: ${props.size + props.sizeUnit};
-          height: ${props.size + props.sizeUnit};
-          transform: rotate(${props.rotate});
-        `}
+        style={{
+          borderRadius: props.borderRadius,
+          backgroundColor: props.colour,
+          width: props.size + props.sizeUnit,
+          height: props.size + props.sizeUnit,
+          transform: `rotate(${props.rotate})`,
+        }}
       ></div>
     </>
   );

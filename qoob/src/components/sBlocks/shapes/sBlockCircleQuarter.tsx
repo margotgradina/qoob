@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 
 interface SBlockCircleQuarterProps {
   size: number;
@@ -10,13 +9,7 @@ const SBlockCircleQuarter = (props: SBlockCircleQuarterProps) => {
   return (
     <>
       <div
-        className={css`
-          height: ${props.size + props.sizeUnit};
-          width: ${props.size + props.sizeUnit};
-          transform: rotate(${props.rotate});
-          background-color: ${props.colour};
-          border-radius: 100% 0px 0px 0px;
-        `}
+        className="rounded-[100%_0px_0px_0px]" style={{height: props.size + props.sizeUnit, width: props.size + props.sizeUnit, transform: `rotate(${props.rotate})`, backgroundColor: props.colour}}
       ></div>
     </>
   );

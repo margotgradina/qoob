@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {css} from "@emotion/css";
 import {useSBlocks} from "./hooks/useSBlocks";
 import SBlockMenu from "./sBlockMenu";
 import {SBlockType} from "./sBlockTypes";
@@ -43,54 +42,22 @@ const SblockGrid = () => {
     <>
       {/* - - - - GRID - - - - TODO MOVE TO SEPARATE COMPONENT -*/}
       <div
-        className={css`
-          width: 90%;
-          height: 100%;
-          max-width: 100vw;
-          max-height: 90vh;
-          display: flex;
-          align-items: flex-start;
-
-          overflow: auto;
-          ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background-color: #7cc0a0;
-            border-radius: 20px;
-            border: 0px solid orange;
-          }
-        `}
+        className="scroll-thin flex h-full max-h-[90vh] w-[90%] max-w-[100vw] items-start overflow-auto max-md:w-full"
       >
         <table
           id="savableGrid"
-          className={css`
-            border-collapse: collapse;
-            padding: 0;
-            margin: 0;
-          `}
+          className="m-0 border-collapse p-0"
         >
           <thead>
             <tr>
               <th
-                className={css`
-                  width: ${cellSize};
-                  padding: 0;
-                  margin: 0;
-                `}
+                className="m-0 p-0" style={{width: cellSize}}
               ></th>
               {Array.from({length: numCols}, (_, i) => {
                 return (
                   <th
                     key={i}
-                    className={css`
-                      width: ${cellSize};
-
-                      padding: 0;
-                      margin: 0;
-                    `}
+                    className="m-0 p-0" style={{width: cellSize}}
                   >
                     {i + 1}
                   </th>
@@ -103,13 +70,7 @@ const SblockGrid = () => {
               return (
                 <tr key={y}>
                   <td
-                    className={css`
-                      height: ${cellSize};
-                      padding: 0;
-                      padding-right: 5px;
-                      margin: 0;
-                      text-align: end;
-                    `}
+                    className="m-0 p-0 pr-[5px] text-end" style={{height: cellSize}}
                   >
                     {y + 1}
                   </td>
@@ -118,28 +79,14 @@ const SblockGrid = () => {
                       <td
                         key={x}
                         onClick={() => handleCellClick(x, y)}
-                        className={css`
-                          width: ${cellSize};
-                          height: ${cellSize};
-                          padding: 0;
-                          margin: 0;
-                          border: ${border};
-                          position: relative;
-                          /* box-sizing: border-box; */
-                        `}
+                        className="relative m-0 p-0" style={{width: cellSize, height: cellSize, border: border}}
                       >
                         {cell?.length > 0 ? (
                           cell?.map((shape: SBlockType, index) => {
                             return (
                               <div
                                 key={"div_shape_" + shape.id}
-                                className={css`
-                                  position: absolute;
-                                  top: 0;
-                                  left: 0;
-                                  visibility: ${determineVisibilityBasedOnLayerId(shape.zPosition) ? "visible" : "hidden"};
-                                  z-index: ${determineZIndexBasedOnLayerId(shape?.zPosition)};
-                                `}
+                                className="absolute left-0 top-0" style={{visibility: determineVisibilityBasedOnLayerId(shape.zPosition) ? "visible" : "hidden", zIndex: determineZIndexBasedOnLayerId(shape?.zPosition)}}
                               >
                                 <SBlock
                                   onClick={() => {}}
@@ -154,11 +101,7 @@ const SblockGrid = () => {
                           })
                         ) : (
                           <div
-                            className={css`
-                              width: ${cellSize};
-
-                              /* border: 1px dashed grey; */
-                            `}
+                            style={{width: cellSize}}
                           ></div>
                         )}
                       </td>
