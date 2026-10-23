@@ -1,6 +1,6 @@
 import {useSBlocks} from "./hooks/useSBlocks";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCancel, faEye, faEyeSlash, faLock, faLockOpen, faMinus, faPlus, faSave} from "@fortawesome/free-solid-svg-icons";
+import IconButton from "../IconButton";
+import {faCancel, faEye, faEyeSlash, faLock, faLockOpen, faMinus, faPen, faPlus, faSave} from "@fortawesome/free-solid-svg-icons";
 import {SBlockLayer} from "./sBlockTypes";
 import {getRandomNumber} from "../../helpers/GetRandomNumber";
 import {useEffect, useState} from "react";
@@ -111,13 +111,13 @@ const SBlockLayers = () => {
         className="flex w-full flex-col"
       >
         <label
-          className="rounded-t-[15px] bg-[#808080] py-[0.1rem] text-center text-[14px] font-semibold text-white"
+          className="rounded-t-[15px] bg-[#666] py-[0.1rem] text-center text-[14px] font-semibold text-white"
         >
           Layers
         </label>
         <div
           key={"sBlock_layers_scroll"}
-          className="scroll-thin flex h-[10vh] max-h-[10vh] w-full flex-col overflow-y-auto max-md:h-auto max-md:max-h-[20vh]"
+          className="scroll-thin flex h-[20vh] min-h-[6rem] w-full flex-col overflow-y-auto"
         >
           {
             layers?.map((layer, index) => {
@@ -126,12 +126,10 @@ const SBlockLayers = () => {
                   key={"div_layer" + index}
                   className="flex flex-row items-center gap-2 px-[0.2rem] py-[0.1rem] text-[14px]" style={{backgroundColor: currentLayer == layer ? "#7cc0a0" : ""}}
                 >
-                  <FontAwesomeIcon
+                  <IconButton
                     icon={layer.visible ? faEye : faEyeSlash}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSetLayerVisibility(layer, index);
-                    }}
+                    label={layer.visible ? `Hide ${layer.name}` : `Show ${layer.name}`}
+                    onClick={() => handleSetLayerVisibility(layer, index)}
                   />
                   {changeName == layer.id ? (
                     <>
@@ -140,27 +138,28 @@ const SBlockLayers = () => {
                         className="w-[99%]"
                         onChange={(e) => setNameInput(e.target.value)}
                       ></input>
-                      <FontAwesomeIcon icon={faSave} onClick={() => handleSaveName(layer, index)} />
-                      <FontAwesomeIcon icon={faCancel} onClick={() => handleCancelName()} />
+                      <IconButton icon={faSave} label="Save name" onClick={() => handleSaveName(layer, index)} />
+                      <IconButton icon={faCancel} label="Cancel renaming" onClick={() => handleCancelName()} />
                     </>
                   ) : (
                     <>
-                      <label
+                      <button
+                        type="button"
                         key={"label_" + layer.id}
-                        className="w-[99%]"
+                        aria-pressed={currentLayer == layer}
+                        className="m-0 w-[99%] min-w-0 cursor-pointer truncate border-0 bg-transparent p-0 text-left text-[14px] font-[inherit] text-inherit"
                         onDoubleClick={() => {
                           setChangeName(layer.id);
                         }}
                         onClick={() => setCurrentLayer(layer)}
                       >
                         {layer.name}
-                      </label>
-                      <FontAwesomeIcon
+                      </button>
+                      <IconButton icon={faPen} label={`Rename ${layer.name}`} onClick={() => setChangeName(layer.id)} />
+                      <IconButton
                         icon={layer.deletable ? faLockOpen : faLock}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSetLayerDeletability(layer, index);
-                        }}
+                        label={layer.deletable ? `Lock ${layer.name} so it can't be deleted` : `Unlock ${layer.name}`}
+                        onClick={() => handleSetLayerDeletability(layer, index)}
                       />
                     </>
                   )}
@@ -175,8 +174,8 @@ const SBlockLayers = () => {
         key={"layers_menu"}
         className="flex h-[25px] w-full flex-row items-center justify-center gap-[1vw] rounded-b-[15px] [border-top:1px_dashed_#808080] py-[0.1rem]"
       >
-        <FontAwesomeIcon icon={faPlus} onClick={() => handleAddLayer()} />
-        <FontAwesomeIcon icon={faMinus} onClick={() => handleDeleteLayer()} />
+        <IconButton icon={faPlus} label="Add layer" onClick={() => handleAddLayer()} />
+        <IconButton icon={faMinus} label="Delete layer" onClick={() => handleDeleteLayer()} />
       </div>
     </div>
   );

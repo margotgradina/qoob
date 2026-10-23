@@ -1,14 +1,18 @@
-import BasicButton from "./BasicButton";
+import IconButton from "./IconButton";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
 import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronDown, faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faChevronRight, faPlay} from "@fortawesome/free-solid-svg-icons";
 
 const inputClass = "h-[1.2rem] w-[40px] rounded-[10px] border-0 bg-white pl-[5px] text-center font-['Josefin_Sans'] font-normal text-black";
 const rowClass = "flex w-[90%] flex-row items-center justify-between font-['Josefin_Sans'] text-[12px] font-normal";
 
 //grid size inputs, shown at the top of the left toolbar
-const Settings = () => {
+interface Props {
+  onStart?: () => void;
+}
+
+const Settings = ({onStart}: Props) => {
   const {setNumRows, numRows, numCols, setNumCols} = useSBlocks();
   const [width, setWidth] = useState<string>(numCols as unknown as string);
   const [height, setHeight] = useState<string>(numRows as unknown as string);
@@ -19,6 +23,7 @@ const Settings = () => {
     setNumCols(width as unknown as number);
     setNumRows(height as unknown as number);
     setCollapsed(true);
+    onStart?.();
   };
 
   const handleChange = (value: string, set: (v: string) => void) => {
@@ -50,7 +55,7 @@ const Settings = () => {
             <label>height</label>
             <input min={1} max={50} type={"number"} className={inputClass} placeholder={"height"} value={height} onChange={(e) => handleChange(e.target.value, setHeight)} />
           </div>
-          <BasicButton onClick={adjustWidthAndHeight} label={"start"} width={"8.5vw"} minWidth="90%" />
+          <IconButton variant="filled" icon={faPlay} label="Start" onClick={adjustWidthAndHeight} />
         </>
       )}
       <div className="flex w-[95%] border border-dashed border-[#808080]" />

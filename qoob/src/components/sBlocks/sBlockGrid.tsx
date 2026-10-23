@@ -6,6 +6,7 @@ import SBlock from "./sBlock";
 // import Toast from "../general/Toast/Toast";
 
 const SblockGrid = () => {
+  const cellPx = parseInt(useSBlocks().cellSize, 10) || 40;
   const {
     gridData,
     numCols,
@@ -21,7 +22,9 @@ const SblockGrid = () => {
     determineVisibilityBasedOnLayerId,
     showSnackBar,
     setShowSnackBar,
+    darkTheme,
   } = useSBlocks();
+  const stickyBg = darkTheme ? "bg-[#353535]" : "bg-[#dfdfdf]";
 
   // Initialize the grid when the component mounts
   useEffect(() => {
@@ -42,23 +45,19 @@ const SblockGrid = () => {
     <>
       {/* - - - - GRID - - - - TODO MOVE TO SEPARATE COMPONENT -*/}
       <div
-        className="scroll-thin flex h-full max-h-[90vh] w-[90%] max-w-[100vw] items-start overflow-auto max-md:w-full"
+        id="gridArea"
+        className="scroll-thin flex h-full min-w-0 flex-1 items-start overflow-auto max-md:h-auto max-md:max-h-[75vh] max-md:flex-none"
       >
         <table
           id="savableGrid"
-          className="m-0 border-collapse p-0"
+          className="m-4 border-collapse p-0"
         >
           <thead>
             <tr>
-              <th
-                className="m-0 p-0" style={{width: cellSize}}
-              ></th>
+              <th data-sticky className={`sticky left-0 top-0 z-[120] m-0 p-0 ${stickyBg}`} style={{width: cellSize}}></th>
               {Array.from({length: numCols}, (_, i) => {
                 return (
-                  <th
-                    key={i}
-                    className="m-0 p-0" style={{width: cellSize}}
-                  >
+                  <th data-sticky key={i} className={`sticky top-0 z-[110] m-0 p-0 ${stickyBg}`} style={{width: cellSize}}>
                     {i + 1}
                   </th>
                 );
@@ -69,9 +68,7 @@ const SblockGrid = () => {
             {gridData?.map((row, y) => {
               return (
                 <tr key={y}>
-                  <td
-                    className="m-0 p-0 pr-[5px] text-end" style={{height: cellSize}}
-                  >
+                  <td data-sticky className={`sticky left-0 z-[110] m-0 p-0 pr-[5px] text-end ${stickyBg}`} style={{height: cellSize}}>
                     {y + 1}
                   </td>
                   {row.map((cell: SBlockType[], x: number) => {
@@ -89,12 +86,13 @@ const SblockGrid = () => {
                                 className="absolute left-0 top-0" style={{visibility: determineVisibilityBasedOnLayerId(shape.zPosition) ? "visible" : "hidden", zIndex: determineZIndexBasedOnLayerId(shape?.zPosition)}}
                               >
                                 <SBlock
+                                  key={cellPx}
                                   onClick={() => {}}
                                   type={shape.shape}
                                   rotate={shape.rotation as 0 | 90 | 180 | 270}
                                   colour={shape?.colour}
-                                  size={40} //TODO replace with cellsize
-                                  sizeUnit={"px"} // TODO replace with cellsize
+                                  size={cellPx}
+                                  sizeUnit={"px"}
                                 />
                               </div>
                             );

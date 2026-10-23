@@ -1,5 +1,5 @@
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import IconButton from "../IconButton";
 import {useEffect} from "react";
 import {useSBlocks} from "./hooks/useSBlocks";
 
@@ -13,18 +13,27 @@ export const SBlocksColourPalettes = () => {
   return (
     <>
       <div
-        className="absolute z-[1000] h-max w-max rounded-[15px] border border-solid border-[#808080] bg-white p-[10px] max-md:max-w-[96vw]"
+        className="fixed left-[2%] top-[2%] z-[1000] h-max w-max rounded-[15px] border border-solid border-[#808080] bg-white p-[10px] max-w-[96vw] md:left-[232px] md:top-4"
       >
-        <FontAwesomeIcon icon={faCircleXmark} color={"#7cc0a0"} onClick={() => setShowPaletteTemplates(false)} />
+        <IconButton icon={faCircleXmark} label="Close palettes" className="text-[#2f7d5b]" onClick={() => setShowPaletteTemplates(false)} />
         <div
           className="scroll-thin flex h-[200px] w-[200px] flex-col gap-4 overflow-y-auto p-[10px]"
         >
           {paletteArray?.map((palette) => {
             return (
               <div
+                role="button"
+                tabIndex={0}
+                key={palette.name}
                 onClick={() => {
                   handleSetColourPaletteArray(palette.colours);
                   setShowPaletteTemplates(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleSetColourPaletteArray(palette.colours);
+                    setShowPaletteTemplates(false);
+                  }
                 }}
                 className="flex flex-col gap-2 rounded-[15px] border border-dashed border-[#808080] py-2 pl-2 pr-0"
               >

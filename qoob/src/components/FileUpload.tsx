@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
-import BasicButton from "./BasicButton";
 import {faCircleXmark, faUpload} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import IconButton from "./IconButton";
 
 interface Props {
   onClose: () => void;
@@ -32,14 +31,9 @@ const FileUpload = ({onClose}: Props) => {
     <div
       className="absolute left-1/2 top-1/2 flex flex-col items-center justify-center gap-4 border border-solid border-black bg-white p-4"
     >
-      <FontAwesomeIcon
-        icon={faCircleXmark}
-        onClick={() => {
-          onClose();
-        }}
-      />
+      <IconButton icon={faCircleXmark} label="Close" onClick={onClose} />
       <input type="file" onChange={handleFileChange} />
-      <BasicButton onClick={handleUpload} label={"import"} iconEnd={faUpload} />
+      <IconButton variant="filled" icon={faUpload} label="Import" onClick={handleUpload} />
     </div>
   );
 };

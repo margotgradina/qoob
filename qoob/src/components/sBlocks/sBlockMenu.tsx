@@ -1,15 +1,18 @@
 import SBlock from "./sBlock";
+import {faChevronDown, faChevronRight, faCircleXmark, faEraser, faEye, faEyeSlash, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleXmark, faDownload, faEraser, faEye, faMoon, faPalette, faRotate, faSave, faSun, faUpload} from "@fortawesome/free-solid-svg-icons";
 import SBlocksColourPalettes from "./sBlocksColourPalettes";
 import {useSBlocks} from "./hooks/useSBlocks";
 import SBlockLayers from "./sBlockLayers";
-import BasicButton from "../BasicButton";
+import IconButton from "../IconButton";
 import ColourPicker from "../ColourPicker";
 import FileUpload from "../FileUpload";
 import Settings from "../Settings";
+import ZoomControls from "../ZoomControls";
+import {Header} from "../Header";
 import {useState} from "react";
-import {useIsMobile} from "../../helpers/useIsMobile";
+
+const Divider = () => <div className="flex w-[95%] border border-dashed border-[#808080]" />;
 
 const SBlockMenu = () => {
   const {
@@ -31,198 +34,142 @@ const SBlockMenu = () => {
     setShowPaletteTemplates,
     darkTheme,
     setDarkTheme,
-    handleExport,
-    handleImport,
   } = useSBlocks();
 
-  const isMobile = useIsMobile();
   const [showUploadScreen, setShowUploadScreen] = useState<boolean>(false);
+  //only used on small screens, where the tools can be folded away so the grid is visible
+  const [toolsOpen, setToolsOpen] = useState<boolean>(true);
+  const hideWhenFolded = toolsOpen ? "" : "max-md:hidden";
 
   return (
     <>
-      <div
-        className="scroll-thin flex h-[calc(100%-2rem)] min-w-[150px] w-[10vw] max-w-[200px] flex-col items-center gap-[1.5vh] self-start overflow-y-auto rounded-[10px] border border-solid border-[#808080] m-4 [&>*]:shrink-0 max-md:shrink-0 font-['Raleway'] text-[1rem] font-medium shadow-[0px_5px_5px_0px_rgba(0,0,0,0.25)] max-md:h-auto max-md:w-auto max-md:max-w-none max-md:self-stretch"
-      >
-        <Settings />
-        {/* - - - - COLOUR - - - -  */}
-        <label
-          className="w-[90%] pt-[0.5vw] font-semibold"
-        >
-          Choose a colour
-        </label>
-        <div
-          className="flex w-[90%] flex-row items-center justify-evenly"
-        >
-          <div
-            onClick={() => {
-              setShowColourPicker(true);
-            }}
-            className="h-[1vw] w-[1vw] rounded-[5px] border-[0.5px] border-solid border-[#808080] max-md:h-5 max-md:w-5" style={{backgroundColor: currentColour?.hex || "transparent"}}
-          ></div>
-          <label
-            className="flex min-w-[2vw]"
+      <div className="m-4 flex h-[calc(100%-2rem)] w-[10vw] min-w-[176px] max-w-[200px] flex-col self-start overflow-hidden rounded-[10px] border border-solid border-[#808080] font-['Raleway'] text-[1rem] font-medium shadow-[0px_5px_5px_0px_rgba(0,0,0,0.25)] max-md:h-auto max-md:w-auto max-md:max-w-none max-md:shrink-0 max-md:self-stretch max-md:overflow-visible">
+        {/* - - - - LOGO (and the fold button on small screens) - - - -  */}
+        <div className="flex shrink-0 flex-col items-center gap-1 pt-2">
+          <Header />
+          <button
+            type="button"
+            aria-expanded={toolsOpen}
+            onClick={() => setToolsOpen(!toolsOpen)}
+            className="m-0 hidden w-[90%] cursor-pointer flex-row items-center justify-between rounded-[6px] border border-solid border-[#808080] bg-transparent px-2 py-1 font-['Raleway'] text-[1rem] font-semibold text-inherit max-md:flex"
           >
-            {currentColour?.hex}
-          </label>
-          <div
-            onClick={() => {
-              setShowPaletteTemplates(true);
-            }}
-            className="h-[20px] w-[20px] rounded-[50%] bg-[#7cc0a0] pb-[6px] pl-[4px] pr-[4px] pt-[4px] text-center"
-          >
-            <FontAwesomeIcon icon={faPalette} color={"white"} />
-          </div>
-        </div>
-        {/* COLOUR PALETTE */}
-        <div
-          className="flex w-[90%] flex-row items-center justify-evenly"
-        >
-          {colourPalette?.map((colour, index) => {
-            return (
-              <div
-                key={"colour_" + index}
-                className="flex flex-col gap-2"
-              >
-                <div
-                  onClick={() => {
-                    if (colourPalette[index] == "transparent") {
-                      handleAddColourPalette(index, currentColour);
-                    } else {
-                      setCurrentColour(colourPalette[index]);
-                    }
-                  }}
-                  className="h-[1vw] max-h-[20px] w-[1vw] max-w-[20px] rounded-[5px] border-[0.5px] border-solid border-[#808080] max-md:h-5 max-md:w-5" style={{backgroundColor: colourPalette[index]?.hex}}
-                ></div>
-                <FontAwesomeIcon
-                  color="grey"
-                  icon={faCircleXmark}
-                  onClick={() => {
-                    handleAddColourPalette(index, "transparent");
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div
-          id={"LINE_1"}
-          className="flex w-[95%] border border-dashed border-[#808080]"
-        />
-        {/* - - - - SHAPE PICKER - - - -  */}
-        <label
-          className="w-[90%] font-semibold"
-        >
-          Choose a shape
-        </label>
-        <div
-          className="scroll-thin-grey flex h-[10vh] flex-row flex-wrap items-center justify-evenly gap-2 overflow-y-auto px-[5px] max-md:h-auto max-md:max-h-[20vh]"
-        >
-          {shapeArray?.map((obj: {shape: string; function: Function}, index: number) => {
-            return (
-              <div
-                key={"shape_" + index}
-                className="p-[1px]" style={{border: currentShape == obj.shape ? "1px dashed #7cc0a0" : undefined}}
-              >
-                <SBlock
-                  key={String(isMobile)}
-                  onClick={() => {
-                    obj.function();
-                  }}
-                  //prettier-ignore
-                  type={obj.shape}
-                  rotate={currentRotation}
-                  colour={currentColour?.hex || "grey"}
-                  size={isMobile ? 24 : 1.5}
-                  sizeUnit={isMobile ? "px" : "vw"}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div
-          id={"LINE_2"}
-          className="flex w-[95%] border border-dashed border-[#808080]"
-        />
-        {/* BUTTONS FOR ADJUSTING */}
-        {/* - - - - ROTATE BUTTON - - - -  */}
-        <div
-          className="flex w-full flex-col items-center justify-start gap-[1vh] pt-[1vh]"
-        >
-          <BasicButton
-            backgroundColor={currentShape === "EMPTY" ? "#349757" : undefined}
-            width={"8.5vw"}
-            minWidth="90%"
-            onClick={() => {
-              if (currentShape == "EMPTY") {
-                setCurrentShape(null);
-              } else {
-                setCurrentShape("EMPTY");
-              }
-            }}
-            label={"Delete"}
-            iconEnd={faEraser}
-          />
-          <BasicButton
-            width={"8.5vw"}
-            minWidth="90%"
-            onClick={() => {
-              handleClickRotation();
-            }}
-            label={"Rotate 90°"}
-            iconEnd={faRotate}
-          />
+            <span>Tools</span>
+            <FontAwesomeIcon icon={toolsOpen ? faChevronDown : faChevronRight} size="xs" />
+          </button>
         </div>
 
-        <SBlockLayers />
-        {/* BUTTONS FOR EXPORTING */}
-        <div
-          className="mt-auto flex w-full flex-col items-center justify-end gap-[1vh] pb-[1vh]"
-        >
-          <BasicButton
-            width={"8.5vw"}
-            minWidth="90%"
-            onClick={() => {
-              setDarkTheme(!darkTheme);
-            }}
-            label={darkTheme ? "Light mode" : "Dark mode"}
-            iconEnd={darkTheme ? faSun : faMoon}
-          />
-          <BasicButton
-            width={"8.5vw"}
-            minWidth="90%"
-            onClick={() => {
-              setShowGrid(!showGrid);
-            }}
-            label={showGrid ? "Hide Grid" : "Show Grid"}
-            iconEnd={showGrid ? faEye : undefined}
-          />
-          <BasicButton
-            width="8.5vw"
-            minWidth="90%"
-            onClick={() => {
-              handleDownload("JPG");
-            }}
-            label={"Save as JPG"}
-            iconEnd={faSave}
-          />
-          {/* <BasicButton
-            width="8.5vw"
-            minWidth="90%"
-            onClick={() => {
-              handleExport();
-            }}
-            label={"Export"}
-            iconEnd={faDownload}
-          />
-          <BasicButton
-            width="8.5vw"
-            minWidth="90%"
-            onClick={() => {
-              setShowUploadScreen(true);
-            }}
-            label={"Import"}
-            iconEnd={faUpload}
-          /> */}
+        {/* - - - - SCROLLABLE TOOLS - - - -  */}
+        <div className={`scroll-thin flex min-h-0 flex-1 flex-col items-center gap-[1.5vh] overflow-y-auto pt-[1vh] max-md:overflow-visible [&>*]:shrink-0 ${hideWhenFolded}`}>
+          <Settings onStart={() => setToolsOpen(false)} />
+          <ZoomControls />
+          <Divider />
+
+          {/* - - - - COLOUR - - - -  */}
+          <label className="w-[90%] font-semibold">Choose a colour</label>
+          <div className="flex w-[90%] flex-row items-center justify-between">
+            <button
+              type="button"
+              aria-label="Open colour picker"
+              title="Open colour picker"
+              onClick={() => setShowColourPicker(true)}
+              className="m-0 h-6 w-6 cursor-pointer rounded-[5px] border-[0.5px] border-solid border-[#808080] p-0"
+              style={{backgroundColor: currentColour?.hex || "transparent"}}
+            ></button>
+            <label className="flex">{currentColour?.hex}</label>
+            <button
+              type="button"
+              aria-label="Choose a colour palette"
+              title="Choose a colour palette"
+              onClick={() => setShowPaletteTemplates(true)}
+              className="m-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-[50%] border-0 bg-[#2f7d5b] p-0"
+            >
+              <FontAwesomeIcon icon={faPalette} color={"white"} />
+            </button>
+          </div>
+          {/* COLOUR PALETTE */}
+          <div className="grid w-[90%] grid-cols-6 gap-[2px]">
+            {colourPalette?.map((colour, index) => {
+              const empty = colourPalette[index] == "transparent";
+              return (
+                <div key={"colour_" + index} className="flex flex-col items-center gap-1">
+                  <button
+                    type="button"
+                    aria-label={empty ? `Save the current colour in slot ${index + 1}` : `Use saved colour ${colourPalette[index]?.hex}`}
+                    title={empty ? "Save the current colour here" : colourPalette[index]?.hex}
+                    onClick={() => {
+                      if (empty) {
+                        handleAddColourPalette(index, currentColour);
+                      } else {
+                        setCurrentColour(colourPalette[index]);
+                      }
+                    }}
+                    className="m-0 aspect-square w-full max-w-6 cursor-pointer bg-transparent rounded-[5px] border-[0.5px] border-solid border-[#808080] p-0"
+                    style={{backgroundColor: colourPalette[index]?.hex}}
+                  ></button>
+                  <IconButton
+                    icon={faCircleXmark}
+                    label={`Clear saved colour ${index + 1}`}
+                    className="text-[#666]"
+                    onClick={() => handleAddColourPalette(index, "transparent")}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <Divider />
+
+          {/* - - - - SHAPE PICKER - - - -  */}
+          <label className="w-[90%] font-semibold">Choose a shape</label>
+          <div className="grid w-[90%] grid-cols-5 justify-items-center gap-1">
+            {shapeArray?.map((obj: {shape: string; function: Function}, index: number) => {
+              const selected = currentShape == obj.shape;
+              return (
+                <button
+                  key={"shape_" + index}
+                  type="button"
+                  aria-label={`Shape ${obj.shape.toLowerCase()}`}
+                  aria-pressed={selected}
+                  title={obj.shape.toLowerCase()}
+                  onClick={() => obj.function()}
+                  className={`m-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-[4px] border-0 p-0 ${
+                    selected ? "bg-[rgba(47,125,91,0.2)] outline outline-2 outline-[#2f7d5b]" : "bg-transparent"
+                  }`}
+                >
+                  <SBlock type={obj.shape} rotate={currentRotation} colour={currentColour?.hex || "grey"} size={24} sizeUnit={"px"} />
+                </button>
+              );
+            })}
+          </div>
+          <Divider />
+
+          {/* - - - - DELETE AND ROTATE - - - -  */}
+          <div className="flex w-full flex-row items-center justify-center gap-3">
+            <IconButton
+              variant="filled"
+              icon={faEraser}
+              label={currentShape === "EMPTY" ? "Stop deleting" : "Delete shapes"}
+              active={currentShape === "EMPTY"}
+              onClick={() => {
+                if (currentShape == "EMPTY") {
+                  setCurrentShape(null);
+                } else {
+                  setCurrentShape("EMPTY");
+                }
+              }}
+            />
+            <IconButton variant="filled" icon={faRotate} label="Rotate 90°" onClick={() => handleClickRotation()} />
+          </div>
+
+          <SBlockLayers />
+        </div>
+
+        {/* - - - - ACTIONS, ALWAYS VISIBLE - - - -  */}
+        <div className={`flex shrink-0 flex-col items-center pb-[1vh] pt-[1vh] [border-top:1px_dashed_#808080] ${hideWhenFolded}`}>
+          <div className="flex flex-row items-center justify-center gap-3">
+            <IconButton variant="filled" icon={darkTheme ? faSun : faMoon} label={darkTheme ? "Light mode" : "Dark mode"} onClick={() => setDarkTheme(!darkTheme)} />
+            <IconButton variant="filled" icon={showGrid ? faEye : faEyeSlash} label={showGrid ? "Hide grid" : "Show grid"} onClick={() => setShowGrid(!showGrid)} />
+            <IconButton variant="filled" icon={faSave} label="Save as JPG" onClick={() => handleDownload("JPG")} />
+          </div>
         </div>
 
         {showColourPicker && <ColourPicker />}

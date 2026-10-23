@@ -176,7 +176,18 @@ export const useSBlocks = () => {
       return console.log("NO GRID FOUND"); //TODO ADD TOAST FOR ALERTS
     }
 
-    const canvas = await html2canvas(element);
+    //always save at the base cell size, whatever the zoom level is
+    const cellPx = parseInt(cellSize, 10) || 40;
+    const canvas = await html2canvas(element, {
+      scale: 40 / cellPx,
+      onclone: (doc) => {
+        //the sticky number labels should not add a background to the saved image
+        doc.querySelectorAll<HTMLElement>("[data-sticky]").forEach((el) => {
+          el.style.position = "static";
+          el.style.background = "transparent";
+        });
+      },
+    });
 
     if (type === "JPG") {
       data = canvas.toDataURL("image/jpg");
