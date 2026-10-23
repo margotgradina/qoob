@@ -10,11 +10,12 @@ interface IconButtonProps {
   size?: "xs" | "sm" | "lg";
   variant?: "plain" | "filled"; //filled is the round green action button
   active?: boolean;
+  small?: boolean; //a tad smaller than the default filled button
 }
 
 //a real <button> around an icon: reachable with the keyboard, announced by screen readers, 24px minimum target.
 //the tooltip is fixed-positioned so the scrolling toolbar can't clip it, and shows on hover and keyboard focus.
-const IconButton = ({icon, label, onClick, className = "", size, variant = "plain", active}: IconButtonProps) => {
+const IconButton = ({icon, label, onClick, className = "", size, variant = "plain", active, small}: IconButtonProps) => {
   const [tip, setTip] = useState<{x: number; y: number} | null>(null);
 
   const showTip = (el: HTMLElement) => {
@@ -24,7 +25,7 @@ const IconButton = ({icon, label, onClick, className = "", size, variant = "plai
 
   const look =
     variant === "filled"
-      ? `h-9 w-9 rounded-[50%] text-white ${active ? "bg-[#14532d]" : "bg-[#2f7d5b]"}`
+      ? `${small ? "h-7 w-7 text-[13px]" : "h-9 w-9"} rounded-[50%] text-white ${active ? "bg-[#14532d]" : "bg-[#2f7d5b]"}`
       : "h-6 min-w-6 rounded-[6px] bg-transparent text-inherit";
 
   return (

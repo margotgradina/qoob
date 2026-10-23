@@ -1,4 +1,4 @@
-import {faMagnifyingGlassMinus, faMagnifyingGlassPlus} from "@fortawesome/free-solid-svg-icons";
+import {faExpand, faMagnifyingGlassMinus, faMagnifyingGlassPlus} from "@fortawesome/free-solid-svg-icons";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
 import IconButton from "./IconButton";
 
@@ -28,18 +28,13 @@ const ZoomControls = () => {
   };
 
   return (
-    <div className="flex w-[90%] flex-row items-center justify-between text-[12px] font-['Josefin_Sans'] font-normal">
-      <span>zoom</span>
-      <div className="flex flex-row items-center gap-[2px]">
-        <IconButton icon={faMagnifyingGlassMinus} label="Zoom out" onClick={() => step(-1)} />
-        <span className="min-w-[2.6rem] text-center" aria-live="polite">
-          {Math.round((px / BASE_CELL_PX) * 100)}%
-        </span>
-        <IconButton icon={faMagnifyingGlassPlus} label="Zoom in" onClick={() => step(1)} />
-        <button type="button" onClick={fit} className="m-0 cursor-pointer rounded-[6px] border border-solid border-[#808080] bg-transparent px-[6px] py-[1px] font-['Josefin_Sans'] text-[12px] font-normal text-inherit">
-          Fit
-        </button>
-      </div>
+    <div className="flex w-[90%] flex-row items-center justify-between gap-1">
+      <IconButton variant="filled" small icon={faMagnifyingGlassMinus} label="Zoom out" onClick={() => step(-1)} />
+      <span className="min-w-[2.6rem] text-center font-['Josefin_Sans'] text-[12px] font-normal" aria-live="polite" title="Zoom level">
+        {Math.round((px / BASE_CELL_PX) * 100)}%
+      </span>
+      <IconButton variant="filled" small icon={faMagnifyingGlassPlus} label="Zoom in" onClick={() => step(1)} />
+      <IconButton variant="filled" small icon={faExpand} label="Fit grid to the screen" onClick={fit} />
     </div>
   );
 };
