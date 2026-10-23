@@ -2,6 +2,7 @@ import {SBlockLayer, SBlockType} from "../sBlockTypes";
 import html2canvas from "html2canvas";
 import {useSBlocksData} from "../store/useSblocksData";
 import {useSBlocksStore} from "../store/sBlocksStore";
+import {buildProject, parseProject, projectFileName} from "../../../helpers/project";
 // import {layer} from "@fortawesome/fontawesome-svg-core";
 // import zIndex from "@material-ui/core/styles/zIndex";
 
@@ -15,6 +16,7 @@ export const useSBlocks = () => {
     undo,
     redo,
     resetHistory,
+    loadProject,
     numRows,
     setNumRows,
     numCols,
@@ -276,41 +278,28 @@ export const useSBlocks = () => {
     }
   };
 
+  //saves the whole project (grid, layers, saved colours, theme) as a .json file
   const handleExport = () => {
-    const fileData = {
-      cellSize: cellSize,
-      numRows: numRows,
-      numCols: numCols,
-      gridData: gridData,
-    };
-    const jsonData = JSON.stringify(fileData, null, 2);
-
-    // const jsonData = JSON.stringify(gridData, null, 2);
-    const blob = new Blob([jsonData], {type: "text/plain"});
+    const project = buildProject({numCols: Number(numCols), numRows: Number(numRows), layers, colourPalette, darkTheme, gridData});
+    const blob = new Blob([JSON.stringify(project, null, 2)], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "exportDesign_" + new Date().toDateString() + ".txt";
+    a.download = projectFileName();
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
-  const handleImport = (file: any) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const importedData = JSON.parse(e.target?.result as string);
-          setNumRows(importedData?.numRows);
-          setNumCols(importedData?.numCols);
-          setTimeout(() => setGridData(importedData?.gridData), 100);
-        } catch (error) {
-          console.error("Error parsing JSON file:", error);
-        }
-      };
-      reader.readAsText(file);
+  //loads a project .json file. Resolves with an error message, or null when it worked.
+  const handleImport = async (file: File): Promise<string | null> => {
+    try {
+      const project = parseProject(await file.text(), layers, colourPalette);
+      loadProject(project);
+      return null;
+    } catch (error) {
+      return error instanceof Error ? error.message : "That file could not be read.";
     }
   };
 

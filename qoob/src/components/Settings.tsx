@@ -1,6 +1,6 @@
 import IconButton from "./IconButton";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronDown, faChevronRight, faPlay} from "@fortawesome/free-solid-svg-icons";
 
@@ -19,6 +19,11 @@ const Settings = ({onStart}: Props) => {
   const {setNumRows, numRows, numCols, setNumCols} = useSBlocks();
   const [width, setWidth] = useState<string>(numCols ? String(numCols) : "");
   const [height, setHeight] = useState<string>(numRows ? String(numRows) : "");
+  //keep the fields in step with the grid, e.g. after importing a project
+  useEffect(() => {
+    setWidth(numCols ? String(numCols) : "");
+    setHeight(numRows ? String(numRows) : "");
+  }, [numCols, numRows]);
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
   const start = () => {

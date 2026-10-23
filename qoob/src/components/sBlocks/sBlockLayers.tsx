@@ -124,7 +124,7 @@ const SBlockLayers = () => {
               return (
                 <div
                   key={"div_layer" + index}
-                  className="flex flex-row items-center gap-1 px-[0.2rem] text-[12px]" style={{backgroundColor: currentLayer == layer ? "#7cc0a0" : ""}}
+                  className="flex flex-row items-center gap-1 px-[0.2rem] text-[12px]" style={{backgroundColor: currentLayer == layer ? "#7cc0a0" : "", color: currentLayer == layer ? "#000" : undefined}}
                 >
                   <IconButton
                     icon={layer.visible ? faEye : faEyeSlash}

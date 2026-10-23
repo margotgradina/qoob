@@ -3,6 +3,7 @@ import {useSBlocks} from "./hooks/useSBlocks";
 import SBlockMenu from "./sBlockMenu";
 import {SBlockType} from "./sBlockTypes";
 import SBlock from "./sBlock";
+import {useSBlocksStore} from "./store/sBlocksStore";
 // import Toast from "../general/Toast/Toast";
 
 const SblockGrid = () => {
@@ -98,7 +99,11 @@ const SblockGrid = () => {
   // Initialize the grid when the component mounts
   useEffect(() => {
     if (numRows && numCols) {
-      initializeGrid();
+      //an imported project already brings a grid of the right size
+      const current = useSBlocksStore.getState().gridData;
+      if (current.length !== Number(numRows) || current[0]?.length !== Number(numCols)) {
+        initializeGrid();
+      }
     }
   }, [numRows, numCols]);
 
