@@ -25,7 +25,7 @@ const IconButton = ({icon, label, onClick, className = "", size, variant = "plai
 
   const look =
     variant === "filled"
-      ? `${small ? "h-7 w-7 text-[13px]" : "h-9 w-9"} rounded-[50%] text-white ${active ? "bg-[#14532d]" : "bg-[#2f7d5b]"}`
+      ? `${small ? "h-6 w-6 text-[12px]" : "h-8 w-8 text-[14px]"} rounded-[50%] text-white ${active ? "bg-[#14532d]" : "bg-[#2f7d5b]"}`
       : "h-6 min-w-6 rounded-[6px] bg-transparent text-inherit";
 
   return (
