@@ -41,7 +41,7 @@ const SBlockMenu = () => {
   return (
     <>
       <div
-        className="scroll-thin flex h-[calc(100%-2rem)] min-w-[150px] w-[10vw] max-w-[200px] flex-col items-center gap-[1.5vh] self-start overflow-y-auto rounded-[10px] border border-solid border-[#808080] m-4 [&>*]:shrink-0 font-['Raleway'] text-[1rem] font-medium shadow-[0px_5px_5px_0px_rgba(0,0,0,0.25)] max-md:h-auto max-md:w-auto max-md:max-w-none max-md:self-stretch"
+        className="scroll-thin flex h-[calc(100%-2rem)] min-w-[150px] w-[10vw] max-w-[200px] flex-col items-center gap-[1.5vh] self-start overflow-y-auto rounded-[10px] border border-solid border-[#808080] m-4 [&>*]:shrink-0 max-md:shrink-0 font-['Raleway'] text-[1rem] font-medium shadow-[0px_5px_5px_0px_rgba(0,0,0,0.25)] max-md:h-auto max-md:w-auto max-md:max-w-none max-md:self-stretch"
       >
         <Settings />
         {/* - - - - COLOUR - - - -  */}

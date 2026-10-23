@@ -32,7 +32,7 @@ const Main = () => {
           // )
         }
         <div
-          className="flex w-full flex-1 items-center justify-center max-md:flex-col max-md:items-stretch"
+          className="flex min-h-0 w-full flex-1 items-center justify-center max-md:min-h-fit max-md:flex-col max-md:items-stretch"
         >
           <SBlockMenu />
           <SblockGrid />
