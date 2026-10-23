@@ -10,12 +10,13 @@ interface IconButtonProps {
   size?: "xs" | "sm" | "lg";
   variant?: "plain" | "filled"; //filled is the round green action button
   active?: boolean;
+  disabled?: boolean;
   small?: boolean; //a tad smaller than the default filled button
 }
 
 //a real <button> around an icon: reachable with the keyboard, announced by screen readers, 24px minimum target.
 //the tooltip is fixed-positioned so the scrolling toolbar can't clip it, and shows on hover and keyboard focus.
-const IconButton = ({icon, label, onClick, className = "", size, variant = "plain", active, small}: IconButtonProps) => {
+const IconButton = ({icon, label, onClick, className = "", size, variant = "plain", active, small, disabled}: IconButtonProps) => {
   const [tip, setTip] = useState<{x: number; y: number} | null>(null);
 
   const showTip = (el: HTMLElement) => {
@@ -34,6 +35,7 @@ const IconButton = ({icon, label, onClick, className = "", size, variant = "plai
         type="button"
         aria-label={label}
         aria-pressed={active}
+        disabled={disabled}
         onClick={(e) => {
           e.stopPropagation();
           onClick();
@@ -42,7 +44,7 @@ const IconButton = ({icon, label, onClick, className = "", size, variant = "plai
         onMouseLeave={() => setTip(null)}
         onFocus={(e) => e.currentTarget.matches(":focus-visible") && showTip(e.currentTarget)}
         onBlur={() => setTip(null)}
-        className={`m-0 flex cursor-pointer items-center justify-center border-0 p-0 ${look} ${className}`}
+        className={`m-0 flex items-center justify-center border-0 p-0 ${look} ${disabled ? "cursor-default opacity-40" : "cursor-pointer"} ${className}`}
       >
         <FontAwesomeIcon icon={icon} size={size} />
       </button>

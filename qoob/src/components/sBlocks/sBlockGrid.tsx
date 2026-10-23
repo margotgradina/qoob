@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useSBlocks} from "./hooks/useSBlocks";
 import SBlockMenu from "./sBlockMenu";
 import {SBlockType} from "./sBlockTypes";
@@ -23,8 +23,77 @@ const SblockGrid = () => {
     showSnackBar,
     setShowSnackBar,
     darkTheme,
+    paintCells,
   } = useSBlocks();
   const stickyBg = darkTheme ? "bg-[#353535]" : "bg-[#dfdfdf]";
+
+  //dragging over the grid paints every cell the pointer passes over, as one undo step
+  const stroke = useRef<{last: [number, number]; visited: Set<string>} | null>(null);
+  const lastPointerType = useRef<string>("mouse");
+
+  useEffect(() => {
+    const endStroke = () => {
+      stroke.current = null;
+    };
+    window.addEventListener("pointerup", endStroke);
+    window.addEventListener("pointercancel", endStroke);
+    return () => {
+      window.removeEventListener("pointerup", endStroke);
+      window.removeEventListener("pointercancel", endStroke);
+    };
+  }, []);
+
+  const cellFromPoint = (clientX: number, clientY: number): [number, number] | null => {
+    const el = document.elementFromPoint(clientX, clientY)?.closest<HTMLElement>("td[data-x]");
+    return el ? [Number(el.dataset.x), Number(el.dataset.y)] : null;
+  };
+
+  //all cells on the straight line between two cells, so a fast drag does not skip any
+  const cellsBetween = (a: [number, number], b: [number, number]): [number, number][] => {
+    const cells: [number, number][] = [];
+    let [x, y] = a;
+    const dx = Math.abs(b[0] - x);
+    const dy = Math.abs(b[1] - y);
+    const sx = x < b[0] ? 1 : -1;
+    const sy = y < b[1] ? 1 : -1;
+    let err = dx - dy;
+    for (;;) {
+      cells.push([x, y]);
+      if (x === b[0] && y === b[1]) break;
+      const e2 = 2 * err;
+      if (e2 > -dy) {
+        err -= dy;
+        x += sx;
+      }
+      if (e2 < dx) {
+        err += dx;
+        y += sy;
+      }
+    }
+    return cells;
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    lastPointerType.current = e.pointerType;
+    //touch keeps scrolling the grid and paints with a tap (see the cell's onClick)
+    if (e.pointerType === "touch" || e.button !== 0) return;
+    const cell = cellFromPoint(e.clientX, e.clientY);
+    if (!cell) return;
+    e.preventDefault(); //no text selection while dragging
+    stroke.current = {last: cell, visited: new Set([cell.join("_")])};
+    paintCells([cell], true);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    const current = stroke.current;
+    if (!current) return;
+    const cell = cellFromPoint(e.clientX, e.clientY);
+    if (!cell || (cell[0] === current.last[0] && cell[1] === current.last[1])) return;
+    const fresh = cellsBetween(current.last, cell).filter((c) => !current.visited.has(c.join("_")));
+    fresh.forEach((c) => current.visited.add(c.join("_")));
+    current.last = cell;
+    paintCells(fresh, false);
+  };
 
   // Initialize the grid when the component mounts
   useEffect(() => {
@@ -50,7 +119,9 @@ const SblockGrid = () => {
       >
         <table
           id="savableGrid"
-          className="m-4 border-collapse p-0"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          className="m-4 select-none border-collapse p-0"
         >
           <thead>
             <tr>
@@ -75,7 +146,9 @@ const SblockGrid = () => {
                     return (
                       <td
                         key={x}
-                        onClick={() => handleCellClick(x, y)}
+                        data-x={x}
+                        data-y={y}
+                        onClick={() => lastPointerType.current === "touch" && handleCellClick(x, y)}
                         className="relative m-0 p-0" style={{width: cellSize, height: cellSize, border: border}}
                       >
                         {cell?.length > 0 ? (

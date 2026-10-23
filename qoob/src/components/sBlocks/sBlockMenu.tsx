@@ -1,5 +1,5 @@
 import SBlock from "./sBlock";
-import {faChevronDown, faChevronRight, faCircleXmark, faEraser, faEye, faEyeSlash, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
+import {faRotateLeft, faRotateRight, faChevronDown, faChevronRight, faCircleXmark, faEraser, faEye, faEyeSlash, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SBlocksColourPalettes from "./sBlocksColourPalettes";
 import {useSBlocks} from "./hooks/useSBlocks";
@@ -11,6 +11,7 @@ import Settings from "../Settings";
 import ZoomControls from "../ZoomControls";
 import {Header} from "../Header";
 import {useState} from "react";
+import {useIsMobile} from "../../helpers/useIsMobile";
 
 const Divider = () => <div className="flex w-[95%] border border-dashed border-[#808080]" />;
 
@@ -34,11 +35,16 @@ const SBlockMenu = () => {
     setShowPaletteTemplates,
     darkTheme,
     setDarkTheme,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
   } = useSBlocks();
 
+  const isMobile = useIsMobile();
   const [showUploadScreen, setShowUploadScreen] = useState<boolean>(false);
   //only used on small screens, where the tools can be folded away so the grid is visible
-  const [toolsOpen, setToolsOpen] = useState<boolean>(true);
+  const [toolsOpen, setToolsOpen] = useState<boolean>(!isMobile);
   const hideWhenFolded = toolsOpen ? "" : "max-md:hidden";
 
   return (
@@ -142,8 +148,10 @@ const SBlockMenu = () => {
           </div>
           <Divider />
 
-          {/* - - - - DELETE AND ROTATE - - - -  */}
+          {/* - - - - UNDO, REDO, DELETE AND ROTATE - - - -  */}
           <div className="flex w-full flex-row items-center justify-center gap-2">
+            <IconButton variant="filled" icon={faRotateLeft} label="Undo (Ctrl+Z)" disabled={!canUndo} onClick={undo} />
+            <IconButton variant="filled" icon={faRotateRight} label="Redo (Ctrl+Shift+Z)" disabled={!canRedo} onClick={redo} />
             <IconButton
               variant="filled"
               icon={faEraser}

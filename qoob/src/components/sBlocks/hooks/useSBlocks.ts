@@ -1,6 +1,7 @@
 import {SBlockLayer, SBlockType} from "../sBlockTypes";
 import html2canvas from "html2canvas";
 import {useSBlocksData} from "../store/useSblocksData";
+import {useSBlocksStore} from "../store/sBlocksStore";
 // import {layer} from "@fortawesome/fontawesome-svg-core";
 // import zIndex from "@material-ui/core/styles/zIndex";
 
@@ -8,6 +9,12 @@ export const useSBlocks = () => {
   const {
     gridData,
     setGridData,
+    canUndo,
+    canRedo,
+    commitGrid,
+    undo,
+    redo,
+    resetHistory,
     numRows,
     setNumRows,
     numCols,
@@ -84,87 +91,62 @@ export const useSBlocks = () => {
       grid[yIndex][xIndex] = sBlock;
     });
     setGridData(grid);
+    resetHistory();
   };
 
   // Handle cell click
-  const handleCellClick = (x: number, y: number) => {
-    // console.log(gridData);
-    const updatedGrid = [...gridData];
+  //puts the current shape (or an eraser block) in each of the given cells in one go.
+  //With record = true the grid before the change is kept for undo, so a whole drag is one undo step.
+  const paintCells = (cells: [number, number][], record: boolean) => {
+    if (cells.length === 0 || !currentLayer || currentShape === null) return;
+    const erase = currentShape === "EMPTY";
 
-    //CHECK IF THERE IS ALREADY ANYTHING IN THAT CELL, IF NOT, THEN ADD A NEW ARRAY
-    if (!gridData[y][x]) {
-      if (currentShape === "EMPTY") {
-        //DO NOTHING - there is no shapes yet and therfore nothing to delete
-      } else {
-        // You can create a new sBlock here, for example, using a function to generate a unique ID
-        const newBlock: SBlockType = {
-          id: x + "_" + y + "_" + currentLayer.id, // Replace with your unique ID generation logic
-          xPosition: x,
-          yPosition: y,
-          zPosition: currentLayer?.id,
-          width: 1,
-          height: 1,
-          layer: currentLayer?.id,
-          colour: typeof currentColour == "string" ? currentColour : currentColour?.hex, // Set the desired color //TODO REPLACE WITH HEX WHEN LAYERS ARE BEING IMPLEMENTED
-          shape: currentShape as string,
-          rotation: currentRotation,
-        };
-        // Update the gridData with the new sBlock in an array
-        updatedGrid[y][x] = [newBlock];
+    //read the latest grid from the store, several cells can be painted before React re-renders
+    const next = [...useSBlocksStore.getState().gridData];
+    const copiedRows = new Set<number>();
+
+    for (const [x, y] of cells) {
+      if (!next[y] || x < 0 || x >= next[y].length) continue;
+      const existing: SBlockType[] | null = next[y][x];
+      //there is nothing to erase in an empty cell
+      if (!existing && erase) continue;
+
+      const newBlock: SBlockType = {
+        id: x + "_" + y + "_" + currentLayer.id,
+        xPosition: x,
+        yPosition: y,
+        zPosition: currentLayer.id,
+        width: 1,
+        height: 1,
+        layer: currentLayer.id,
+        colour: erase ? "transparent" : typeof currentColour == "string" ? currentColour : currentColour?.hex,
+        shape: erase ? "FULL" : (currentShape as string),
+        rotation: erase ? 0 : currentRotation,
+      };
+
+      //copy rows and cells instead of changing them, so earlier grids stay valid for undo
+      if (!copiedRows.has(y)) {
+        next[y] = [...next[y]];
+        copiedRows.add(y);
       }
-
-      // Set the updated grid data
-      setGridData(updatedGrid);
-    } else {
-      //THERE IS ALREADY SHAPES IN THE CELL. If there is already a shape with this layer.id, then replace, else, add.
-      const newArray: SBlockType[] = [...gridData[y][x]];
-      let newBlock: SBlockType;
-
-      //The to add shape
-      if (currentShape == "EMPTY") {
-        newBlock = {
-          id: x + "_" + y + "_" + currentLayer.id, // Replace with your unique ID generation logic
-          xPosition: x,
-          yPosition: y,
-          zPosition: currentLayer.id,
-          width: 1,
-          height: 1,
-          layer: currentLayer.id,
-          colour: "transparent", // Set the desired color //TODO REPLACE WITH HEX WHEN LAYERS ARE BEING IMPLEMENTED
-          shape: "FULL",
-          rotation: 0,
-        };
+      if (!existing) {
+        next[y][x] = [newBlock];
       } else {
-        newBlock = {
-          id: x + "_" + y + "_" + currentLayer.id, // Replace with your unique ID generation logic
-          xPosition: x,
-          yPosition: y,
-          zPosition: currentLayer?.id,
-          width: 1,
-          height: 1,
-          layer: currentLayer?.id,
-          colour: typeof currentColour == "string" ? currentColour : currentColour?.hex, // Set the desired color //TODO REPLACE WITH HEX WHEN LAYERS ARE BEING IMPLEMENTED
-          shape: currentShape as string,
-          rotation: currentRotation,
-        };
+        //if there is already a shape on this layer, replace it, else add
+        const newArray = [...existing];
+        const index = newArray.findIndex((shape: SBlockType) => shape.zPosition == currentLayer.id);
+        if (index >= 0) {
+          newArray.splice(index, 1, newBlock);
+        } else {
+          newArray.push(newBlock);
+        }
+        next[y][x] = newArray;
       }
-
-      // const existingShapeOnLayer : SBlockType | undefined = newArray?.find((shape: SBlockType) => shape.zPosition == currentLayer.id)
-      const index: number = newArray.findIndex((shape: SBlockType) => {
-        //TODO DOES NOT YET WORK!!!
-        return shape.zPosition == currentLayer.id;
-      });
-      console.log(index);
-      //check if there is already a shape on the current layer, if so: replace. If not, add.
-      if (index >= 0) {
-        newArray.splice(index, 1, newBlock);
-      } else {
-        newArray.push(newBlock);
-      }
-      updatedGrid[y][x] = newArray;
-      setGridData(updatedGrid);
     }
+    commitGrid(next, record);
   };
+
+  const handleCellClick = (x: number, y: number) => paintCells([[x, y]], true);
 
   //Download a jpg of the current grid
   const handleDownload = async (type: "PNG" | "JPG") => {
@@ -349,6 +331,11 @@ export const useSBlocks = () => {
     setBorder,
     initializeGrid,
     handleCellClick,
+    paintCells,
+    canUndo,
+    canRedo,
+    undo,
+    redo,
     currentColour,
     setCurrentColour,
     showColourPicker,
