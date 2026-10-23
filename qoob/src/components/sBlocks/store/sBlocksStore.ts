@@ -49,10 +49,14 @@ const initialColour = {
   source: "hex",
 };
 
+const MAX_HISTORY = 100;
+
 type State = {
   gridData: any[];
   numRows: number;
   numCols: number;
+  past: any[][]; //earlier versions of the grid, used for undo
+  future: any[][]; //versions that were undone, used for redo
   cellSize: string;
   border: string;
 
@@ -77,8 +81,10 @@ type State = {
 
 const initialState: State = {
   gridData: [],
-  numRows: 0,
-  numCols: 0,
+  numRows: 20,
+  numCols: 20,
+  past: [],
+  future: [],
   cellSize: "40px",
   border: "1px dashed grey",
 
@@ -102,6 +108,10 @@ const initialState: State = {
 
 type Actions = {
   setGridData: (arr: any[]) => void;
+  commitGrid: (arr: any[], record: boolean) => void;
+  undo: () => void;
+  redo: () => void;
+  resetHistory: () => void;
   setNumRows: (num: number) => void;
   setNumCols: (num: number) => void;
   setCellsize: (str: string) => void;
@@ -128,6 +138,20 @@ export const useSBlocksStore = create<State & Actions>((set) => ({
   ...initialState,
   clearDataStoreOO: () => set(initialState),
   setGridData: (arr: any[]) => set(() => ({gridData: arr})),
+  //sets a new grid. With record = true the previous grid is kept so it can be undone.
+  commitGrid: (arr: any[], record: boolean) =>
+    set((s) => (record ? {gridData: arr, past: [...s.past, s.gridData].slice(-MAX_HISTORY), future: []} : {gridData: arr})),
+  undo: () =>
+    set((s) => {
+      if (s.past.length === 0) return {};
+      return {gridData: s.past[s.past.length - 1], past: s.past.slice(0, -1), future: [...s.future, s.gridData]};
+    }),
+  redo: () =>
+    set((s) => {
+      if (s.future.length === 0) return {};
+      return {gridData: s.future[s.future.length - 1], future: s.future.slice(0, -1), past: [...s.past, s.gridData]};
+    }),
+  resetHistory: () => set(() => ({past: [], future: []})),
   setNumRows: (num: number) => set(() => ({numRows: num})),
   setNumCols: (num: number) => set(() => ({numCols: num})),
   setCellsize: (str: string) => set(() => ({cellSize: str})),

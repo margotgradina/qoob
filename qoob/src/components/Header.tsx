@@ -1,12 +1,3 @@
 export const Header = () => {
-  return (
-    <>
-      <div className="flex h-max">
-        <img
-          src="/logo/qooob-logo.png"
-          className="w-[200px] p-[2px]"
-        />
-      </div>
-    </>
-  );
+  return <img src="/logo/qooob-logo.png" alt="Qooob" className="w-[80%] max-w-[170px] p-[2px]" />;
 };

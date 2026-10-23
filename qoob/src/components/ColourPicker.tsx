@@ -1,59 +1,30 @@
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useRef} from "react";
 import {SketchPicker, Color} from "react-color";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
+import IconButton from "./IconButton";
+
+//the same swatches react-color shows by default, without its native hover titles
+const PRESET_COLOURS = [
+  "#D0021B", "#F5A623", "#F8E71C", "#8B572A", "#7ED321", "#417505", "#BD10E0", "#9013FE",
+  "#4A90E2", "#50E3C2", "#B8E986", "#000000", "#4A4A4A", "#9B9B9B", "#FFFFFF",
+].map((color) => ({color, title: ""}));
 
 const ColourPicker = () => {
   const {currentColour, setCurrentColour, setShowColourPicker} = useSBlocks();
 
-  const colourPickerRef = useRef<HTMLDivElement | null>(null);
-
   //FIXME Click outside of colourpicker to go out of it
-  // useEffect(() => {
-  //   const handleClickOutside = (event: any) => {
-  //     if (showColourPicker) {
-  //       if (colourPickerRef.current && !colourPickerRef.current?.contains(event.target)) {
-  //         // This code will run when a click happens outside the div
-  //         setShowColourPicker(false);
-  //         // You can call your function here
-  //         // yourFunction();
-  //       }
-  //     }
-  //   };
-
-  //   // Add a click event listener to the document when the component mounts
-  //   document.addEventListener("click", handleClickOutside);
-
-  //   // Remove the event listener when the component unmounts to prevent memory leaks
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, []);
 
   return (
     <>
-      <div
-        ref={colourPickerRef}
-        className="fixed left-[2%] top-[2%] z-[1000] flex h-max w-max max-w-[96vw] flex-row gap-[5px]"
-      >
+      <div className="fixed left-[2%] top-[2%] z-[1000] flex h-max w-max max-w-[96vw] flex-row gap-[5px] md:left-[232px] md:top-4">
         <SketchPicker
+          presetColors={PRESET_COLOURS}
           color={currentColour as unknown as Color}
           onChange={(colour: any) => {
             setCurrentColour(colour);
           }}
-          onChangeComplete={() => {
-            // setShowColourPicker(false);
-          }}
         />
-        <FontAwesomeIcon
-          icon={faCircleXmark}
-          size={"lg"}
-          color={"#7cc0a0"}
-          onClick={() => {
-            setShowColourPicker(false);
-          }}
-        />
+        <IconButton icon={faCircleXmark} label="Close colour picker" size="lg" className="text-[#2f7d5b]" onClick={() => setShowColourPicker(false)} />
       </div>
     </>
   );
