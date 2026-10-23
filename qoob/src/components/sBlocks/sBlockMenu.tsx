@@ -1,5 +1,5 @@
 import SBlock from "./sBlock";
-import {faBorderAll, faBorderNone, faRotateLeft, faRotateRight, faChevronDown, faChevronRight, faCircleXmark, faEraser, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
+import {faBorderAll, faBorderNone, faFileExport, faFileImport, faRotateLeft, faRotateRight, faChevronDown, faChevronRight, faCircleXmark, faEraser, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SBlocksColourPalettes from "./sBlocksColourPalettes";
 import {useSBlocks} from "./hooks/useSBlocks";
@@ -7,11 +7,10 @@ import SBlockLayers from "./sBlockLayers";
 import IconButton from "../IconButton";
 import Tooltip from "../Tooltip";
 import ColourPicker from "../ColourPicker";
-import FileUpload from "../FileUpload";
 import Settings from "../Settings";
 import ZoomControls from "../ZoomControls";
 import {Header} from "../Header";
-import {useState} from "react";
+import React, {useRef, useState} from "react";
 import {useIsMobile} from "../../helpers/useIsMobile";
 
 const Divider = () => <div className="flex w-[95%] border border-dashed border-[#808080]" />;
@@ -40,10 +39,23 @@ const SBlockMenu = () => {
     canRedo,
     undo,
     redo,
+    handleExport,
+    handleImport,
   } = useSBlocks();
 
   const isMobile = useIsMobile();
-  const [showUploadScreen, setShowUploadScreen] = useState<boolean>(false);
+  const fileInput = useRef<HTMLInputElement | null>(null);
+  //a short message after importing, shown under the buttons
+  const [notice, setNotice] = useState<{text: string; error: boolean} | null>(null);
+
+  const onFileChosen = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; //so the same file can be chosen again
+    if (!file) return;
+    const error = await handleImport(file);
+    setNotice(error ? {text: error, error: true} : {text: "Project imported", error: false});
+    window.setTimeout(() => setNotice(null), 5000);
+  };
   //only used on small screens, where the tools can be folded away so the grid is visible
   const [toolsOpen, setToolsOpen] = useState<boolean>(!isMobile);
   const hideWhenFolded = toolsOpen ? "" : "max-md:hidden";
@@ -176,17 +188,24 @@ const SBlockMenu = () => {
         </div>
 
         {/* - - - - ACTIONS, ALWAYS VISIBLE - - - -  */}
-        <div className={`flex shrink-0 flex-col items-center py-1.5 [border-top:1px_dashed_#808080] ${hideWhenFolded}`}>
-          <div className="flex flex-row items-center justify-center gap-2">
-            <IconButton variant="filled" icon={darkTheme ? faSun : faMoon} label={darkTheme ? "Light mode" : "Dark mode"} onClick={() => setDarkTheme(!darkTheme)} />
-            <IconButton variant="filled" icon={showGrid ? faBorderAll : faBorderNone} label={showGrid ? "Hide grid" : "Show grid"} onClick={() => setShowGrid(!showGrid)} />
-            <IconButton variant="filled" icon={faSave} label="Save as JPG" onClick={() => handleDownload("JPG")} />
+        <div className={`flex shrink-0 flex-col items-center gap-1.5 py-1.5 [border-top:1px_dashed_#808080] ${hideWhenFolded}`}>
+          <div className="flex flex-row items-center justify-center gap-[6px]">
+            <IconButton variant="filled" small icon={darkTheme ? faSun : faMoon} label={darkTheme ? "Light mode" : "Dark mode"} onClick={() => setDarkTheme(!darkTheme)} />
+            <IconButton variant="filled" small icon={showGrid ? faBorderAll : faBorderNone} label={showGrid ? "Hide grid" : "Show grid"} onClick={() => setShowGrid(!showGrid)} />
+            <IconButton variant="filled" small icon={faFileImport} label="Import project (.json)" onClick={() => fileInput.current?.click()} />
+            <IconButton variant="filled" small icon={faFileExport} label="Export project (.json)" onClick={handleExport} />
+            <IconButton variant="filled" small icon={faSave} label="Save as JPG" onClick={() => handleDownload("JPG")} />
           </div>
+          <input ref={fileInput} type="file" accept=".json,application/json" className="hidden" aria-label="Choose a project file to import" onChange={onFileChosen} />
+          {notice && (
+            <p role="status" className={`m-0 w-[90%] text-center text-[11px] leading-tight ${notice.error ? (darkTheme ? "text-[#ff8a80]" : "text-[#b3261e]") : darkTheme ? "text-[#7cc0a0]" : "text-[#2f7d5b]"}`}>
+              {notice.text}
+            </p>
+          )}
         </div>
 
         {showColourPicker && <ColourPicker />}
         {showPaletteTemplates && <SBlocksColourPalettes />}
-        {showUploadScreen && <FileUpload onClose={() => setShowUploadScreen(false)} />}
       </div>
     </>
   );

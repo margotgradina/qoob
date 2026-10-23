@@ -49,6 +49,8 @@ const initialColour = {
   source: "hex",
 };
 
+import type {QoobProject} from "../../../helpers/project";
+
 const MAX_HISTORY = 100;
 
 type State = {
@@ -112,6 +114,7 @@ type Actions = {
   undo: () => void;
   redo: () => void;
   resetHistory: () => void;
+  loadProject: (p: QoobProject) => void;
   setNumRows: (num: number) => void;
   setNumCols: (num: number) => void;
   setCellsize: (str: string) => void;
@@ -152,6 +155,19 @@ export const useSBlocksStore = create<State & Actions>((set) => ({
       return {gridData: s.future[s.future.length - 1], future: s.future.slice(0, -1), past: [...s.past, s.gridData]};
     }),
   resetHistory: () => set(() => ({past: [], future: []})),
+  //replaces the whole design with an imported project
+  loadProject: (p: QoobProject) =>
+    set(() => ({
+      numCols: p.numCols,
+      numRows: p.numRows,
+      gridData: p.gridData,
+      layers: p.layers,
+      currentLayer: p.layers[0],
+      colourPalette: p.colourPalette,
+      darkTheme: p.darkTheme,
+      past: [],
+      future: [],
+    })),
   setNumRows: (num: number) => set(() => ({numRows: num})),
   setNumCols: (num: number) => set(() => ({numCols: num})),
   setCellsize: (str: string) => set(() => ({cellSize: str})),
