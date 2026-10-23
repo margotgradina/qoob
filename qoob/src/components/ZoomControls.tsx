@@ -7,7 +7,7 @@ export const BASE_CELL_PX = 40;
 
 //lets the user change how large the cells are shown. The saved image always uses the base cell size.
 const ZoomControls = () => {
-  const {cellSize, setCellSize, numCols, numRows} = useSBlocks();
+  const {cellSize, setCellSize, numCols, numRows, showGrid} = useSBlocks();
   const px = parseInt(cellSize, 10) || BASE_CELL_PX;
 
   const step = (dir: 1 | -1) => {
@@ -19,8 +19,8 @@ const ZoomControls = () => {
     const area = document.getElementById("gridArea");
     if (!area || !numCols || !numRows) return;
     const margin = 32; // the grid's margin on both sides
-    const labelCol = 30; // width of the row numbers
-    const labelRow = 24; // height of the column numbers
+    const labelCol = showGrid ? 30 : 0; // width of the row numbers (hidden with the grid)
+    const labelRow = showGrid ? 24 : 0; // height of the column numbers
     const byWidth = (area.clientWidth - margin - labelCol) / numCols;
     const byHeight = (area.clientHeight - margin - labelRow) / numRows;
     const next = Math.floor(Math.max(STEPS[0], Math.min(byWidth, byHeight, STEPS[STEPS.length - 1])));

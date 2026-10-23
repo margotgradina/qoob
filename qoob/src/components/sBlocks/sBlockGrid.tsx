@@ -123,6 +123,7 @@ const SblockGrid = () => {
           onPointerMove={handlePointerMove}
           className="m-4 select-none border-collapse p-0"
         >
+          {showGrid && (
           <thead>
             <tr>
               <th data-sticky className={`sticky left-0 top-0 z-[120] m-0 p-0 ${stickyBg}`} style={{width: cellSize}}></th>
@@ -135,13 +136,14 @@ const SblockGrid = () => {
               })}
             </tr>
           </thead>
+          )}
           <tbody>
             {gridData?.map((row, y) => {
               return (
                 <tr key={y}>
-                  <td data-sticky className={`sticky left-0 z-[110] m-0 p-0 pr-[5px] text-end ${stickyBg}`} style={{height: cellSize}}>
+                  {showGrid && (<td data-sticky className={`sticky left-0 z-[110] m-0 p-0 pr-[5px] text-end ${stickyBg}`} style={{height: cellSize}}>
                     {y + 1}
-                  </td>
+                  </td>)}
                   {row.map((cell: SBlockType[], x: number) => {
                     return (
                       <td
