@@ -65,7 +65,7 @@ const SBlockMenu = () => {
           <Divider />
 
           {/* - - - - COLOUR - - - -  */}
-          <label className="w-[90%] font-semibold">Choose a colour</label>
+          <label className="w-[90%] font-semibold">Colour</label>
           <div className="flex w-[90%] flex-row items-center justify-between">
             <button
               type="button"
@@ -119,7 +119,7 @@ const SBlockMenu = () => {
           <Divider />
 
           {/* - - - - SHAPE PICKER - - - -  */}
-          <label className="w-[90%] font-semibold">Choose a shape</label>
+          <label className="w-[90%] font-semibold">Shape</label>
           <div className="grid w-[90%] grid-cols-5 justify-items-center gap-1">
             {shapeArray?.map((obj: {shape: string; function: Function}, index: number) => {
               const selected = currentShape == obj.shape;
