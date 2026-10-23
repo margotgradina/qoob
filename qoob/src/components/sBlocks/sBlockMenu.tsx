@@ -1,5 +1,5 @@
 import SBlock from "./sBlock";
-import {faRotateLeft, faRotateRight, faChevronDown, faChevronRight, faCircleXmark, faEraser, faEye, faEyeSlash, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
+import {faBorderAll, faBorderNone, faRotateLeft, faRotateRight, faChevronDown, faChevronRight, faCircleXmark, faEraser, faMoon, faPalette, faRotate, faSave, faSun} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SBlocksColourPalettes from "./sBlocksColourPalettes";
 import {useSBlocks} from "./hooks/useSBlocks";
@@ -175,7 +175,7 @@ const SBlockMenu = () => {
         <div className={`flex shrink-0 flex-col items-center py-1.5 [border-top:1px_dashed_#808080] ${hideWhenFolded}`}>
           <div className="flex flex-row items-center justify-center gap-2">
             <IconButton variant="filled" icon={darkTheme ? faSun : faMoon} label={darkTheme ? "Light mode" : "Dark mode"} onClick={() => setDarkTheme(!darkTheme)} />
-            <IconButton variant="filled" icon={showGrid ? faEye : faEyeSlash} label={showGrid ? "Hide grid" : "Show grid"} onClick={() => setShowGrid(!showGrid)} />
+            <IconButton variant="filled" icon={showGrid ? faBorderAll : faBorderNone} label={showGrid ? "Hide grid" : "Show grid"} onClick={() => setShowGrid(!showGrid)} />
             <IconButton variant="filled" icon={faSave} label="Save as JPG" onClick={() => handleDownload("JPG")} />
           </div>
         </div>
