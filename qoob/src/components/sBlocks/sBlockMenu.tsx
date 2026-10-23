@@ -189,14 +189,12 @@ const SBlockMenu = () => {
 
         {/* - - - - ACTIONS, ALWAYS VISIBLE - - - -  */}
         <div className={`flex shrink-0 flex-col items-center gap-1.5 py-1.5 [border-top:1px_dashed_#808080] ${hideWhenFolded}`}>
-          <div className="flex flex-row items-center justify-center gap-2">
-            <IconButton variant="filled" icon={darkTheme ? faSun : faMoon} label={darkTheme ? "Light mode" : "Dark mode"} onClick={() => setDarkTheme(!darkTheme)} />
-            <IconButton variant="filled" icon={showGrid ? faBorderAll : faBorderNone} label={showGrid ? "Hide grid" : "Show grid"} onClick={() => setShowGrid(!showGrid)} />
-          </div>
-          <div className="flex flex-row items-center justify-center gap-2">
-            <IconButton variant="filled" icon={faFileImport} label="Import project (.json)" onClick={() => fileInput.current?.click()} />
-            <IconButton variant="filled" icon={faFileExport} label="Export project (.json)" onClick={handleExport} />
-            <IconButton variant="filled" icon={faSave} label="Save as JPG" onClick={() => handleDownload("JPG")} />
+          <div className="flex flex-row items-center justify-center gap-[6px]">
+            <IconButton variant="filled" small icon={darkTheme ? faSun : faMoon} label={darkTheme ? "Light mode" : "Dark mode"} onClick={() => setDarkTheme(!darkTheme)} />
+            <IconButton variant="filled" small icon={showGrid ? faBorderAll : faBorderNone} label={showGrid ? "Hide grid" : "Show grid"} onClick={() => setShowGrid(!showGrid)} />
+            <IconButton variant="filled" small icon={faFileImport} label="Import project (.json)" onClick={() => fileInput.current?.click()} />
+            <IconButton variant="filled" small icon={faFileExport} label="Export project (.json)" onClick={handleExport} />
+            <IconButton variant="filled" small icon={faSave} label="Save as JPG" onClick={() => handleDownload("JPG")} />
           </div>
           <input ref={fileInput} type="file" accept=".json,application/json" className="hidden" aria-label="Choose a project file to import" onChange={onFileChosen} />
           {notice && (
