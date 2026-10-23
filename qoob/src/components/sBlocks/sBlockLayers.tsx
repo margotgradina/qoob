@@ -104,11 +104,11 @@ const SBlockLayers = () => {
   return (
     <div
       key={"sBlock_layers_block"}
-      className="flex h-[90%] w-[90%] flex-col items-center justify-between rounded-[15px] border border-solid border-[#808080]"
+      className="flex w-[90%] flex-col items-center justify-between rounded-[15px] border border-solid border-[#808080]"
     >
       <div
         key={"layers_block"}
-        className="flex h-full w-full flex-col"
+        className="flex w-full flex-col"
       >
         <label
           className="rounded-t-[15px] bg-[#808080] py-[0.1rem] text-center text-[14px] font-semibold text-white"

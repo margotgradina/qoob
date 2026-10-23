@@ -5,7 +5,6 @@ import {Header} from "./Header";
 import {useState} from "react";
 import {Unstable_NumberInput as BaseNumberInput, NumberInputProps, numberInputClasses} from "@mui/base/Unstable_NumberInput";
 import BasicButton from "./BasicButton";
-import Settings from "./Settings";
 import FloatingButtons from "./FloatingButtons";
 
 const Main = () => {
