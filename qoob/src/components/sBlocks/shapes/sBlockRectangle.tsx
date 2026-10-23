@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import SBlockUnit from "../sBlockUnit";
 
 interface sBlockRectangleProps {
@@ -12,32 +11,18 @@ const SBlockRectangle = (props: sBlockRectangleProps) => {
   return (
     <>
       <div
-        className={css`
-          display: flex;
-          flex-direction: column;
-          height: ${props.size + props.sizeUnit};
-          width: ${props.size + props.sizeUnit};
-          transform: rotate(${props.rotate});
-        `}
+        className="flex flex-col" style={{height: props.size + props.sizeUnit, width: props.size + props.sizeUnit, transform: `rotate(${props.rotate})`}}
       >
         {/* FIRST ROW */}
         <div
-          className={css`
-            display: flex;
-            flex-direction: row;
-          `}
+          className="flex flex-row"
         >
           <SBlockUnit colour={props.colour} rotate={"0deg"} size={props.size * 0.5} sizeUnit={props.sizeUnit} borderRadius={"0px 0px 0px 0px"} />
           <SBlockUnit colour={props.colour} rotate={"0deg"} size={props.size * 0.5} sizeUnit={props.sizeUnit} borderRadius={"0px 0px 0px 0px"} />
         </div>
         {/* SECOND ROW */}
         <div
-          className={css`
-            display: flex;
-            flex-direction: row;
-            width: ${props?.size * 0.5 + props.sizeUnit};
-            height: ${props.size + props.sizeUnit};
-          `}
+          className="flex flex-row" style={{width: props?.size * 0.5 + props.sizeUnit, height: props.size + props.sizeUnit}}
         ></div>
       </div>
     </>

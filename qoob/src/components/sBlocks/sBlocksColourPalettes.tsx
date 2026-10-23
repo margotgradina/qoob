@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import {faCircleXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect} from "react";
@@ -14,39 +13,11 @@ export const SBlocksColourPalettes = () => {
   return (
     <>
       <div
-        className={css`
-          position: absolute;
-          z-index: 1000;
-          height: max-content;
-          width: max-content;
-          padding: 10px;
-
-          background-color: white;
-          border: 1px solid grey;
-          border-radius: 15px;
-        `}
+        className="absolute z-[1000] h-max w-max rounded-[15px] border border-solid border-[#808080] bg-white p-[10px] max-md:max-w-[96vw]"
       >
         <FontAwesomeIcon icon={faCircleXmark} color={"#7cc0a0"} onClick={() => setShowPaletteTemplates(false)} />
         <div
-          className={css`
-            height: 200px;
-            width: 200px;
-            overflow-y: auto;
-            padding: 10px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            ::-webkit-scrollbar {
-              width: 5px; /* width of the entire scrollbar */
-            }
-
-            ::-webkit-scrollbar-thumb {
-              background-color: #7cc0a0; /*color of the scroll thumb */
-              border-radius: 20px; /* roundness of the scroll thumb */
-              border: 0px solid orange; /* creates padding around scroll thumb */
-            }
-          `}
+          className="scroll-thin flex h-[200px] w-[200px] flex-col gap-4 overflow-y-auto p-[10px]"
         >
           {paletteArray?.map((palette) => {
             return (
@@ -55,37 +26,16 @@ export const SBlocksColourPalettes = () => {
                   handleSetColourPaletteArray(palette.colours);
                   setShowPaletteTemplates(false);
                 }}
-                className={css`
-                  display: flex;
-                  flex-direction: column;
-                  gap: 0.5rem;
-                  border-radius: 15px;
-                  padding: 0.5rem 0px 0.5rem 0.5rem;
-                  border: 1px dashed grey;
-                `}
+                className="flex flex-col gap-2 rounded-[15px] border border-dashed border-[#808080] py-2 pl-2 pr-0"
               >
                 <label>{palette.name}</label>
                 <div
-                  className={css`
-                    display: flex;
-                    flex-direction: row;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: space-evenly;
-                  `}
+                  className="flex w-full flex-row items-center justify-evenly"
                 >
                   {palette.colours?.map((colour, index) => {
                     return (
                       <div
-                        className={css`
-                          width: 1vw;
-                          height: 1vw;
-                          max-width: 20px;
-                          max-height: 20px;
-                          border: 0.5px solid grey;
-                          border-radius: 5px;
-                          background-color: ${colour?.hex};
-                        `}
+                        className="h-[1vw] max-h-[20px] w-[1vw] max-w-[20px] rounded-[5px] border-[0.5px] border-solid border-[#808080] max-md:h-5 max-md:w-5" style={{backgroundColor: colour?.hex}}
                       ></div>
                     );
                   })}

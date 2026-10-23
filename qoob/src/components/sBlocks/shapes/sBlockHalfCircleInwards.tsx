@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import SBlockUnit from "../sBlockUnit";
 
 interface sBlockHalfCircleProps {
@@ -12,20 +11,11 @@ const SBlockHalfCircleInwards = (props: sBlockHalfCircleProps) => {
   return (
     <>
       <div
-        className={css`
-          display: flex;
-          flex-direction: row;
-          height: ${props.size + props.sizeUnit};
-          width: ${props.size + props.sizeUnit};
-          transform: rotate(${props.rotate});
-        `}
+        className="flex flex-row" style={{height: props.size + props.sizeUnit, width: props.size + props.sizeUnit, transform: `rotate(${props.rotate})`}}
       >
         {/* FIRST ROW */}
         <div
-          className={css`
-            display: flex;
-            flex-direction: column;
-          `}
+          className="flex flex-col"
         >
           <SBlockUnit
             colour={props.colour}
@@ -44,12 +34,7 @@ const SBlockHalfCircleInwards = (props: sBlockHalfCircleProps) => {
         </div>
         {/* SECOND ROW */}
         <div
-          className={css`
-            display: flex;
-            flex-direction: row;
-            width: ${props?.size * 0.5 + props.sizeUnit};
-            height: ${props.size + props.sizeUnit};
-          `}
+          className="flex flex-row" style={{width: props?.size * 0.5 + props.sizeUnit, height: props.size + props.sizeUnit}}
         ></div>
       </div>
     </>

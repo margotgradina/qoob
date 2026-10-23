@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import SBlock from "./sBlock";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faDownload, faEraser, faEye, faMoon, faPalette, faRotate, faSave, faSun, faUpload} from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +8,7 @@ import BasicButton from "../BasicButton";
 import ColourPicker from "../ColourPicker";
 import FileUpload from "../FileUpload";
 import {useState} from "react";
+import {useIsMobile} from "../../helpers/useIsMobile";
 
 const SBlockMenu = () => {
   const {
@@ -34,83 +34,31 @@ const SBlockMenu = () => {
     handleImport,
   } = useSBlocks();
 
+  const isMobile = useIsMobile();
   const [showUploadScreen, setShowUploadScreen] = useState<boolean>(false);
 
   return (
     <>
       <div
-        className={css`
-          display: flex;
-          flex-direction: column;
-          align-self: flex-start;
-          align-items: center;
-          width: 10vw;
-          margin: 1rem;
-          min-width: 150px;
-          max-width: 200px;
-          /* height: 90vh; */
-          /* max-height: 90vh; */
-          height: 100%;
-          overflow-y: auto;
-          ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background-color: #7cc0a0;
-            border-radius: 20px;
-            border: 0px solid orange;
-          }
-          border-radius: 10px;
-          box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.25);
-          border: 1px solid grey;
-          font-family: "Raleway";
-          font-weight: 500;
-          font-size: 1rem;
-          gap: 1.5vh;
-        `}
+        className="scroll-thin flex h-full min-w-[150px] w-[10vw] max-w-[200px] flex-col items-center gap-[1.5vh] self-start overflow-y-auto rounded-[10px] border border-solid border-[#808080] m-4 font-['Raleway'] text-[1rem] font-medium shadow-[0px_5px_5px_0px_rgba(0,0,0,0.25)] max-md:h-auto max-md:w-auto max-md:max-w-none max-md:self-stretch"
       >
         {/* - - - - COLOUR - - - -  */}
         <label
-          className={css`
-            padding-top: 0.5vw;
-            width: 90%;
-            font-weight: 600;
-          `}
+          className="w-[90%] pt-[0.5vw] font-semibold"
         >
           Choose a colour
         </label>
         <div
-          className={css`
-            /* padding-left: 1vw;
-            padding-right: 1vw; */
-            align-items: center;
-            justify-content: space-evenly;
-            width: 90%;
-
-            display: flex;
-            flex-direction: row;
-            /* gap: 1vw; */
-          `}
+          className="flex w-[90%] flex-row items-center justify-evenly"
         >
           <div
             onClick={() => {
               setShowColourPicker(true);
             }}
-            className={css`
-              width: 1vw;
-              height: 1vw;
-              border: 0.5px solid grey;
-              border-radius: 5px;
-              background-color: ${currentColour?.hex || "transparent"};
-            `}
+            className="h-[1vw] w-[1vw] rounded-[5px] border-[0.5px] border-solid border-[#808080] max-md:h-5 max-md:w-5" style={{backgroundColor: currentColour?.hex || "transparent"}}
           ></div>
           <label
-            className={css`
-              display: flex;
-              min-width: 2vw;
-            `}
+            className="flex min-w-[2vw]"
           >
             {currentColour?.hex}
           </label>
@@ -118,36 +66,20 @@ const SBlockMenu = () => {
             onClick={() => {
               setShowPaletteTemplates(true);
             }}
-            className={css`
-              background-color: #7cc0a0;
-              padding: 4px 4px 6px 4px;
-              height: 20px;
-              width: 20px;
-              border-radius: 50%;
-              text-align: center;
-            `}
+            className="h-[20px] w-[20px] rounded-[50%] bg-[#7cc0a0] pb-[6px] pl-[4px] pr-[4px] pt-[4px] text-center"
           >
             <FontAwesomeIcon icon={faPalette} color={"white"} />
           </div>
         </div>
         {/* COLOUR PALETTE */}
         <div
-          className={css`
-            display: flex;
-            flex-direction: row;
-            width: 90%;
-            align-items: center;
-            justify-content: space-evenly;
-          `}
+          className="flex w-[90%] flex-row items-center justify-evenly"
         >
           {colourPalette?.map((colour, index) => {
             return (
               <div
-                className={css`
-                  display: flex;
-                  flex-direction: column;
-                  gap: 0.5rem;
-                `}
+                key={"colour_" + index}
+                className="flex flex-col gap-2"
               >
                 <div
                   onClick={() => {
@@ -157,16 +89,7 @@ const SBlockMenu = () => {
                       setCurrentColour(colourPalette[index]);
                     }
                   }}
-                  className={css`
-                    width: 1vw;
-                    height: 1vw;
-                    max-width: 20px;
-                    max-height: 20px;
-
-                    border: 0.5px solid grey;
-                    border-radius: 5px;
-                    background-color: ${colourPalette[index]?.hex};
-                  `}
+                  className="h-[1vw] max-h-[20px] w-[1vw] max-w-[20px] rounded-[5px] border-[0.5px] border-solid border-[#808080] max-md:h-5 max-md:w-5" style={{backgroundColor: colourPalette[index]?.hex}}
                 ></div>
                 <FontAwesomeIcon
                   color="grey"
@@ -181,57 +104,25 @@ const SBlockMenu = () => {
         </div>
         <div
           id={"LINE_1"}
-          className={css`
-            width: 95%;
-            display: flex;
-            /* margin: 1rem 0px 1rem 0px; */
-            border: 1px dashed grey;
-          `}
+          className="flex w-[95%] border border-dashed border-[#808080]"
         />
         {/* - - - - SHAPE PICKER - - - -  */}
         <label
-          className={css`
-            /* padding-top: 0.5vw; */
-            width: 90%;
-            font-weight: 600;
-          `}
+          className="w-[90%] font-semibold"
         >
           Choose a shape
         </label>
         <div
-          className={css`
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: row;
-            padding: 0px 5px 0px 5px;
-            height: 10vh;
-            overflow-y: auto;
-            ::-webkit-scrollbar {
-              width: 5px;
-              height: 5px;
-            }
-
-            ::-webkit-scrollbar-thumb {
-              /* background-color: #7cc0a0; */
-              background-color: grey;
-              border-radius: 20px;
-              border: 0px solid orange;
-            }
-            align-items: center;
-            justify-content: space-evenly;
-
-            gap: 0.5rem;
-          `}
+          className="scroll-thin-grey flex h-[10vh] flex-row flex-wrap items-center justify-evenly gap-2 overflow-y-auto px-[5px] max-md:h-auto max-md:max-h-[20vh]"
         >
           {shapeArray?.map((obj: {shape: string; function: Function}, index: number) => {
             return (
               <div
-                className={css`
-                  border: ${currentShape == obj.shape && "1px dashed #7cc0a0"};
-                  padding: 1px;
-                `}
+                key={"shape_" + index}
+                className="p-[1px]" style={{border: currentShape == obj.shape ? "1px dashed #7cc0a0" : undefined}}
               >
                 <SBlock
+                  key={String(isMobile)}
                   onClick={() => {
                     obj.function();
                   }}
@@ -239,8 +130,8 @@ const SBlockMenu = () => {
                   type={obj.shape}
                   rotate={currentRotation}
                   colour={currentColour?.hex || "grey"}
-                  size={1.5}
-                  sizeUnit={"vw"}
+                  size={isMobile ? 24 : 1.5}
+                  sizeUnit={isMobile ? "px" : "vw"}
                 />
               </div>
             );
@@ -248,26 +139,12 @@ const SBlockMenu = () => {
         </div>
         <div
           id={"LINE_2"}
-          className={css`
-            width: 95%;
-            display: flex;
-            /* margin: 1rem 0px 1rem 0px; */
-            border: 1px dashed grey;
-          `}
+          className="flex w-[95%] border border-dashed border-[#808080]"
         />
         {/* BUTTONS FOR ADJUSTING */}
         {/* - - - - ROTATE BUTTON - - - -  */}
         <div
-          className={css`
-            display: flex;
-            height: 100%;
-            width: 100%;
-            flex-direction: column;
-            gap: 1vh;
-            padding-top: 1vh;
-            align-items: center;
-            justify-content: flex-start;
-          `}
+          className="flex h-full w-full flex-col items-center justify-start gap-[1vh] pt-[1vh] max-md:h-auto"
         >
           <BasicButton
             backgroundColor={currentShape === "EMPTY" ? "#349757" : undefined}
@@ -297,16 +174,7 @@ const SBlockMenu = () => {
         <SBlockLayers />
         {/* BUTTONS FOR EXPORTING */}
         <div
-          className={css`
-            display: flex;
-            height: 100%;
-            width: 100%;
-            padding-bottom: 1vh;
-            flex-direction: column;
-            gap: 1vh;
-            align-items: center;
-            justify-content: flex-end;
-          `}
+          className="flex h-full w-full flex-col items-center justify-end gap-[1vh] pb-[1vh] max-md:h-auto"
         >
           <BasicButton
             width={"8.5vw"}

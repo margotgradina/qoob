@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import SBlockUnit from "./sBlockUnit";
-// import {css} from "@emotion/css";
 import SBlockRectangle from "./shapes/sBlockRectangle";
 import SBlockTriangle from "./shapes/sBlockTriangle";
 import SBlockRoundCorner from "./shapes/sBlockRoundCorner";

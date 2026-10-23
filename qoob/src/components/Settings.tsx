@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import BasicButton from "./BasicButton";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
 import {useState} from "react";
@@ -17,48 +16,17 @@ const Settings = () => {
   return (
     <>
       <div
-        className={css`
-          position: absolute;
-          right: 180px;
-          top: 2%;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 0.7rem;
-          /* background-color: yellow; */
-          width: 100px;
-        `}
+        className="absolute right-[180px] top-[2%] flex w-[100px] flex-row items-center gap-[0.7rem] max-md:static max-md:w-auto max-md:flex-wrap max-md:justify-center max-md:p-2"
       >
         <div
-          className={css`
-            display: flex;
-            flex-direction: row;
-            width: 90px;
-            justify-content: space-between;
-            font-family: "Josefin Sans";
-            font-weight: 400;
-            align-items: center;
-            font-size: 12px;
-            gap: 0.2rem;
-          `}
+          className="flex w-[90px] flex-row items-center justify-between gap-[0.2rem] font-['Josefin_Sans'] text-[12px] font-normal"
         >
           <label>width</label>
           <input
             min={1}
             max={50}
             type={"number"}
-            className={css`
-              background-color: rgb(255, 255, 255);
-              color: #000;
-              width: 40px;
-              text-align: center;
-              height: 1.2rem;
-              border: 0px;
-              border-radius: 10px;
-              padding-left: 5px;
-              font-family: "Josefin Sans";
-              font-weight: 400;
-            `}
+            className="h-[1.2rem] w-[40px] rounded-[10px] border-0 bg-white pl-[5px] text-center font-['Josefin_Sans'] font-normal text-black"
             placeholder={"width"}
             value={width}
             onChange={(e) => {
@@ -71,35 +39,14 @@ const Settings = () => {
           />
         </div>
         <div
-          className={css`
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            font-family: "Josefin Sans";
-            font-weight: 400;
-            width: 90px;
-            align-items: center;
-            font-size: 12px;
-            gap: 0.2rem;
-          `}
+          className="flex w-[90px] flex-row items-center justify-between gap-[0.2rem] font-['Josefin_Sans'] text-[12px] font-normal"
         >
           <label>height</label>
           <input
             min={1}
             max={50}
             type={"number"}
-            className={css`
-              background-color: rgb(255, 255, 255);
-              color: #000;
-              width: 40px;
-              text-align: center;
-              height: 1.2rem;
-              border: 0px;
-              border-radius: 10px;
-              padding-left: 5px;
-              font-family: "Josefin Sans";
-              font-weight: 400;
-            `}
+            className="h-[1.2rem] w-[40px] rounded-[10px] border-0 bg-white pl-[5px] text-center font-['Josefin_Sans'] font-normal text-black"
             placeholder={"height"}
             value={height}
             onChange={(e) => {

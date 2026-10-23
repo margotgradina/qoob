@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import {useSBlocks} from "./hooks/useSBlocks";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCancel, faEye, faEyeSlash, faLock, faLockOpen, faMinus, faPlus, faSave} from "@fortawesome/free-solid-svg-icons";
@@ -105,76 +104,27 @@ const SBlockLayers = () => {
   return (
     <div
       key={"sBlock_layers_block"}
-      className={css`
-        display: flex;
-        flex-direction: column;
-        border: 1px solid grey;
-        border-radius: 15px;
-        width: 90%;
-        height: 90%;
-        align-items: center;
-        justify-content: space-between;
-      `}
+      className="flex h-[90%] w-[90%] flex-col items-center justify-between rounded-[15px] border border-solid border-[#808080]"
     >
       <div
         key={"layers_block"}
-        className={css`
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          height: 100%;
-        `}
+        className="flex h-full w-full flex-col"
       >
         <label
-          className={css`
-            border-radius: 15px 15px 0px 0px;
-            font-weight: 600;
-            text-align: center;
-            padding: 0.1rem 0px 0.1rem 0px;
-            background-color: grey;
-            color: #fff;
-            font-size: 14px;
-          `}
+          className="rounded-t-[15px] bg-[#808080] py-[0.1rem] text-center text-[14px] font-semibold text-white"
         >
           Layers
         </label>
         <div
           key={"sBlock_layers_scroll"}
-          className={css`
-            width: 100%;
-            height: 10vh;
-            max-height: 10vh;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-
-            ::-webkit-scrollbar {
-              width: 5px;
-              height: 5px;
-            }
-
-            ::-webkit-scrollbar-thumb {
-              background-color: #7cc0a0;
-              border-radius: 20px;
-              border: 0px solid orange;
-            }
-          `}
+          className="scroll-thin flex h-[10vh] max-h-[10vh] w-full flex-col overflow-y-auto max-md:h-auto max-md:max-h-[20vh]"
         >
           {
             layers?.map((layer, index) => {
               return (
                 <div
                   key={"div_layer" + index}
-                  className={css`
-                    display: flex;
-                    flex-direction: row;
-                    font-size: 14px;
-                    gap: 0.5rem;
-
-                    padding: 0.1rem 0.2rem 0.1rem 0.2rem;
-                    align-items: center;
-                    background-color: ${currentLayer == layer ? "#7cc0a0" : ""};
-                  `}
+                  className="flex flex-row items-center gap-2 px-[0.2rem] py-[0.1rem] text-[14px]" style={{backgroundColor: currentLayer == layer ? "#7cc0a0" : ""}}
                 >
                   <FontAwesomeIcon
                     icon={layer.visible ? faEye : faEyeSlash}
@@ -187,9 +137,7 @@ const SBlockLayers = () => {
                     <>
                       <input
                         key={"nampeinput_" + layer.id}
-                        className={css`
-                          width: 99%;
-                        `}
+                        className="w-[99%]"
                         onChange={(e) => setNameInput(e.target.value)}
                       ></input>
                       <FontAwesomeIcon icon={faSave} onClick={() => handleSaveName(layer, index)} />
@@ -199,9 +147,7 @@ const SBlockLayers = () => {
                     <>
                       <label
                         key={"label_" + layer.id}
-                        className={css`
-                          width: 99%;
-                        `}
+                        className="w-[99%]"
                         onDoubleClick={() => {
                           setChangeName(layer.id);
                         }}
@@ -227,18 +173,7 @@ const SBlockLayers = () => {
       </div>
       <div
         key={"layers_menu"}
-        className={css`
-          display: flex;
-          flex-direction: row;
-          width: 100%;
-          height: 25px;
-          padding: 0.1rem 0px 0.1rem 0px;
-          border-top: 1px dashed grey;
-          border-radius: 0px 0px 15px 15px;
-          gap: 1vw;
-          align-items: center;
-          justify-content: center;
-        `}
+        className="flex h-[25px] w-full flex-row items-center justify-center gap-[1vw] rounded-b-[15px] [border-top:1px_dashed_#808080] py-[0.1rem]"
       >
         <FontAwesomeIcon icon={faPlus} onClick={() => handleAddLayer()} />
         <FontAwesomeIcon icon={faMinus} onClick={() => handleDeleteLayer()} />

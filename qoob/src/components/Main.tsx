@@ -1,4 +1,3 @@
-import {css} from "@emotion/css";
 import SblockGrid from "./sBlocks/sBlockGrid";
 import SBlockMenu from "./sBlocks/sBlockMenu";
 import {useSBlocks} from "./sBlocks/hooks/useSBlocks";
@@ -22,17 +21,9 @@ const Main = () => {
   return (
     <>
       <div
-        className={css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          height: 100%;
-          background-color: ${darkTheme ? "#353535" : "#dfdfdf"};
-          color: ${darkTheme ? "#fff" : "#000"};
-          font-family: "Josefin Sans";
-          font-weight: 600;
-          overflow: hidden;
-        `}
+        className={`flex h-full flex-col items-center overflow-hidden font-['Josefin_Sans'] font-semibold max-md:overflow-auto ${
+          darkTheme ? "bg-[#353535] text-white" : "bg-[#dfdfdf] text-black"
+        }`}
       >
         <Header />
         {
@@ -42,14 +33,7 @@ const Main = () => {
           // )
         }
         <div
-          className={css`
-            width: 100%;
-            display: flex;
-            flex: 1;
-            align-items: center;
-            justify-content: center;
-            /* gap: 1rem; */
-          `}
+          className="flex w-full flex-1 items-center justify-center max-md:flex-col max-md:items-stretch"
         >
           <SBlockMenu />
           <SblockGrid />
