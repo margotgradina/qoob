@@ -5,8 +5,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronDown, faChevronRight, faPlay} from "@fortawesome/free-solid-svg-icons";
 
 const inputClass =
-  "h-[1.8rem] w-[56px] rounded-[10px] border-0 bg-white px-[6px] text-center font-['Josefin_Sans'] text-[14px] font-normal text-black";
-const rowClass = "flex flex-row items-center justify-between gap-2 font-['Josefin_Sans'] text-[13px] font-normal";
+  "h-[1.6rem] w-[52px] rounded-[10px] border-0 bg-white px-[6px] text-center font-['Josefin_Sans'] text-[13px] font-normal text-black";
+const rowClass = "flex flex-row items-center justify-between gap-2 font-['Josefin_Sans'] text-[12px] font-normal";
 const MIN = 1;
 const MAX = 50;
 
@@ -62,14 +62,14 @@ const Settings = ({onStart}: Props) => {
         type="button"
         aria-expanded={!collapsed}
         onClick={() => setCollapsed(!collapsed)}
-        className="m-0 flex w-[90%] cursor-pointer flex-row items-center justify-between border-0 bg-transparent p-0 pt-[0.5vw] text-left font-['Raleway'] text-[1rem] font-semibold text-inherit"
+        className="m-0 flex w-[90%] cursor-pointer flex-row items-center justify-between border-0 bg-transparent p-0 text-left font-['Raleway'] text-[13px] font-semibold text-inherit"
       >
         <span>Grid size</span>
         <FontAwesomeIcon icon={collapsed ? faChevronRight : faChevronDown} size="xs" />
       </button>
       {!collapsed && (
         <div className="flex w-[90%] flex-row items-center justify-between">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             {field("grid-width", "width", width, setWidth)}
             {field("grid-height", "height", height, setHeight)}
           </div>

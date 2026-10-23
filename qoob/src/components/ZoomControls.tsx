@@ -30,7 +30,7 @@ const ZoomControls = () => {
   return (
     <div className="flex w-[90%] flex-row items-center justify-between gap-1">
       <IconButton variant="filled" small icon={faMagnifyingGlassMinus} label="Zoom out" onClick={() => step(-1)} />
-      <span className="min-w-[2.6rem] text-center font-['Josefin_Sans'] text-[12px] font-normal" aria-live="polite" title="Zoom level">
+      <span className="min-w-[2.2rem] text-center font-['Josefin_Sans'] text-[11px] font-normal" aria-live="polite" title="Zoom level">
         {Math.round((px / BASE_CELL_PX) * 100)}%
       </span>
       <IconButton variant="filled" small icon={faMagnifyingGlassPlus} label="Zoom in" onClick={() => step(1)} />

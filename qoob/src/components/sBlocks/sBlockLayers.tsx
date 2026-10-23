@@ -111,20 +111,20 @@ const SBlockLayers = () => {
         className="flex w-full flex-col"
       >
         <label
-          className="rounded-t-[15px] bg-[#666] py-[0.1rem] text-center text-[14px] font-semibold text-white"
+          className="rounded-t-[15px] bg-[#666] text-center text-[12px] font-semibold text-white"
         >
           Layers
         </label>
         <div
           key={"sBlock_layers_scroll"}
-          className="scroll-thin flex h-[20vh] min-h-[6rem] w-full flex-col overflow-y-auto"
+          className="scroll-thin flex h-[14vh] min-h-[4.5rem] w-full flex-col overflow-y-auto"
         >
           {
             layers?.map((layer, index) => {
               return (
                 <div
                   key={"div_layer" + index}
-                  className="flex flex-row items-center gap-2 px-[0.2rem] py-[0.1rem] text-[14px]" style={{backgroundColor: currentLayer == layer ? "#7cc0a0" : ""}}
+                  className="flex flex-row items-center gap-1 px-[0.2rem] text-[12px]" style={{backgroundColor: currentLayer == layer ? "#7cc0a0" : ""}}
                 >
                   <IconButton
                     icon={layer.visible ? faEye : faEyeSlash}
@@ -147,7 +147,7 @@ const SBlockLayers = () => {
                         type="button"
                         key={"label_" + layer.id}
                         aria-pressed={currentLayer == layer}
-                        className="m-0 w-[99%] min-w-0 cursor-pointer truncate border-0 bg-transparent p-0 text-left text-[14px] font-[inherit] text-inherit"
+                        className="m-0 w-[99%] min-w-0 cursor-pointer truncate border-0 bg-transparent p-0 text-left text-[12px] font-[inherit] text-inherit"
                         onDoubleClick={() => {
                           setChangeName(layer.id);
                         }}
@@ -172,7 +172,7 @@ const SBlockLayers = () => {
       </div>
       <div
         key={"layers_menu"}
-        className="flex h-[25px] w-full flex-row items-center justify-center gap-[1vw] rounded-b-[15px] [border-top:1px_dashed_#808080] py-[0.1rem]"
+        className="flex h-[22px] w-full flex-row items-center justify-center gap-[1vw] rounded-b-[15px] [border-top:1px_dashed_#808080] py-[0.1rem]"
       >
         <IconButton icon={faPlus} label="Add layer" onClick={() => handleAddLayer()} />
         <IconButton icon={faMinus} label="Delete layer" onClick={() => handleDeleteLayer()} />
